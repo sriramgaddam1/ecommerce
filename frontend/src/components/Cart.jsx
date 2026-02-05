@@ -7,10 +7,12 @@ import AppContext from "../context/Context";
 import CheckoutPopup from "./CheckoutPopup";
 import "./Cart.css";
 
+/* ✅ BACKEND BASE URL */
+const BASE_URL = import.meta.env.VITE_API_URL;
+
 const Cart = () => {
   const navigate = useNavigate();
 
-  // ✅ USE CONTEXT ONLY ONCE
   const {
     cart,
     removeFromCart,
@@ -23,7 +25,7 @@ const Cart = () => {
   const [showModal, setShowModal] = useState(false);
 
   /* -------------------------------
-     AUTH GUARD (INSIDE COMPONENT)
+     AUTH GUARD
   ------------------------------- */
   useEffect(() => {
     if (!isAuthenticated) {
@@ -33,12 +35,12 @@ const Cart = () => {
   }, [isAuthenticated, navigate]);
 
   /* -------------------------------
-     SYNC CART
+     SYNC CART + IMAGE URL (FIXED)
   ------------------------------- */
   useEffect(() => {
     const items = cart.map((item) => ({
       ...item,
-      imageUrl: `http://localhost:8080/api/product/${item.id}/image`,
+      imageUrl: `${BASE_URL}/api/product/${item.id}/image`,
     }));
     setCartItems(items);
   }, [cart]);
@@ -102,6 +104,9 @@ const Cart = () => {
                     src={item.imageUrl}
                     alt={item.name}
                     className="cart-item-image"
+                    onError={(e) => {
+                      e.currentTarget.src = "/no-image.png";
+                    }}
                   />
                 </div>
 
