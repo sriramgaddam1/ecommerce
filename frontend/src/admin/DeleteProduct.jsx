@@ -10,7 +10,9 @@ const DeleteProduct = () => {
   useEffect(() => {
     const deleteProduct = async () => {
       try {
-        await axios.delete(`http://localhost:8080/api/product/${id}`);
+        await axios.delete(
+          `${import.meta.env.VITE_API_URL}/api/product/${id}`
+        );
         toast.success("Product deleted successfully");
         navigate("/admin/products");
       } catch (error) {
