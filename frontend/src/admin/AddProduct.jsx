@@ -24,30 +24,37 @@ const AddProduct = () => {
   const handleImageChange = (e) => {
     setImage(e.target.files[0]);
   };
-  const submitHandler = (event) => {
-    event.preventDefault();
-    const formData = new FormData();
-    formData.append("imageFile", image);
-    formData.append(
-      "product",
-      new Blob([JSON.stringify(product)], {
-        type: "application/json",
-      })
-    );
-    axios
-      .post("http://localhost:8080/api/product", formData, {
+const submitHandler = (event) => {
+  event.preventDefault();
+
+  const formData = new FormData();
+  formData.append("imageFile", image);
+  formData.append(
+    "product",
+    new Blob([JSON.stringify(product)], {
+      type: "application/json",
+    })
+  );
+
+  axios
+    .post(
+      `${import.meta.env.VITE_API_URL}/api/product`,
+      formData,
+      {
         headers: {
           "Content-Type": "multipart/form-data",
         },
-      })
-      .then((response) => {
-        toast.success("Product added successfully");
-        navigate("/admin/products");
-      })
-      .catch(() => {
-        toast.error("Error adding product");
-      });
-  };
+      }
+    )
+    .then(() => {
+      toast.success("Product added successfully");
+      navigate("/admin/products");
+    })
+    .catch(() => {
+      toast.error("Error adding product");
+    });
+};
+
   return (
     <div className="container">
       <div className="center-container">
