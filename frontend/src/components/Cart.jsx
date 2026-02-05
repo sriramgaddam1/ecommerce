@@ -4,7 +4,7 @@ import { Button } from "react-bootstrap";
 import { toast } from "react-toastify";
 
 import AppContext from "../context/Context";
-import CheckoutPopup from "./CheckoutPopup";
+import CheckoutPopup from "./CheckOutPopup";
 import "./Cart.css";
 
 /* ✅ BACKEND BASE URL */
