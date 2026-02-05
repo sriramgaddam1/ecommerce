@@ -247,15 +247,6 @@ const fetchPaymentMethods = async (id) => {
 };
 
 
-/* =========================
-   ACTIVE TAB HANDLING
-========================= */
-
-import API from "../axios";
-
-/* =========================
-   ACTIVE TAB HANDLING
-========================= */
 useEffect(() => {
   const pathname = location.pathname;
 
@@ -356,11 +347,7 @@ const handleUpdateProfile = async () => {
 };
 
 
-import API from "../axios";
 
-/* =========================
-   ADDRESS FORM CHANGE
-========================= */
 const handleAddressChange = (e) => {
   const { name, value, type, checked } = e.target;
 
