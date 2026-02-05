@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
 import "./Account.css";
-import API from "../api"; 
+import API from "../axios"; 
 const generateGradientFromString = (str = "") => {
   let hash = 0;
 
