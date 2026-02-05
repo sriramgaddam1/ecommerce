@@ -1,0 +1,13 @@
+.light-theme {
+    --checkout-bg: #c1c1c1;
+
+}
+
+.dark-theme {
+    --checkout-bg: black;
+
+}
+
+body {
+  margin-top: -8    px;
+}

@@ -1,0 +1,137 @@
+/* ===============================
+   THEME SUPPORT
+================================ */
+
+.light-theme {
+    --cart-bg: #c1c1c1;
+    --box-bg: #c1c1c1;
+    --text: #000;
+    --border: #ddd;
+}
+
+.dark-theme {
+    --cart-bg: #000;
+    --box-bg: #1e1e1e;
+    --text: #fff;
+    --border: #333;
+}
+
+/* ===============================
+   CONTAINER
+================================ */
+
+.cart-container {
+    min-height: 100vh;
+    background-color: var(--cart-bg);
+    display: flex;
+    justify-content: center;
+    padding-top: 110px;
+}
+
+.shopping-cart {
+    width: 70%;
+    max-width: 1000px;
+    background-color: var(--box-bg);
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+}
+
+/* ===============================
+   TITLE
+================================ */
+
+.title {
+    margin-bottom: 25px;
+    font-weight: 600;
+    color: var(--text);
+}
+
+/* ===============================
+   CART ITEM ROW
+================================ */
+
+.cart-item {
+    display: grid;
+    grid-template-columns: 120px 1fr 250px;
+    align-items: center;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--border);
+}
+
+/* IMAGE */
+.cart-item-image {
+    width: 90px;
+    height: 90px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+/* CENTER */
+.cart-center {
+    text-align: center;
+    color: var(--text);
+}
+
+.cart-center .brand {
+    font-size: 0.9rem;
+    opacity: 0.7;
+}
+
+.cart-center .name {
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+/* RIGHT */
+.cart-right {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 20px;
+}
+
+.quantity button {
+    border: none;
+    background: transparent;
+    font-size: 20px;
+    cursor: pointer;
+    color: var(--text);
+}
+
+.quantity span {
+    margin: 0 8px;
+    font-size: 16px;
+}
+
+.price {
+    font-weight: 600;
+    color: var(--text);
+}
+
+.remove-btn {
+    border: none;
+    background: transparent;
+    font-size: 20px;
+    cursor: pointer;
+    color: red;
+}
+
+/* ===============================
+   TOTAL + CHECKOUT
+================================ */
+
+.total {
+    margin-top: 30px;
+    text-align: center;
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: var(--text);
+}
+
+.checkout-btn {
+    width: 100%;
+    margin-top: 15px;
+    padding: 14px;
+    font-size: 1.1rem;
+}

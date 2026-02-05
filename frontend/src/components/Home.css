@@ -1,0 +1,252 @@
+/* =========================
+   THEME VARIABLES
+========================= */
+
+.light-theme {
+    --app-bg: #c1c1c1;
+    --page-bg: #c1c1c1;
+    --navbar_background: #ffffff;
+    --navbar_text: #000000;
+    --para-clr: #000000;
+    --link_color: #000000;
+    --link_hover_color: #333333;
+    --card-bg-clr: #ffffff;
+    --btn-bg: #ffffff;
+    --btn-clr: #000000;
+    --button-clr: #000000;
+    --category-hvr: #dcdcdc;
+}
+
+.dark-theme {
+    --app-bg: #121212;
+    --page-bg: #121212;
+    --navbar_background: #1e1e1e;
+    --navbar_text: #ffffff;
+    --para-clr: #ffffff;
+    --link_color: #ffffff;
+    --link_hover_color: #bbbbbb;
+    --card-bg-clr: #2c2b2b;
+    --btn-bg: #1e1e1e;
+    --btn-clr: #ffffff;
+    --button-clr: #ffffff;
+    --category-hvr: #3a3a3a;
+}
+
+/* =========================
+   GLOBAL RESET & SAFETY
+========================= */
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    min-height: 100%;
+    background-color: var(--app-bg);
+    color: var(--para-clr);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+#root {
+    min-height: 100vh;
+    background-color: var(--app-bg);
+    margin-top: -10px;
+}
+
+/* =========================
+   TYPOGRAPHY
+========================= */
+
+h1, h2, h3, h4, h5, h6, p {
+    color: var(--para-clr);
+}
+
+a {
+    color: var(--link_color);
+    text-decoration: none;
+}
+
+a:hover {
+    color: var(--link_hover_color);
+}
+
+/* =========================
+   NAVBAR (FIXED)
+========================= */
+
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: var(--navbar_background);
+    padding: 10px 0;
+    z-index: 1000;
+}
+
+.navbar a,
+.navbar span,
+.navbar li,
+.navbar i,
+.navbar button {
+    color: var(--navbar_text) !important;
+}
+
+/* =========================
+   PAGE WRAPPER
+========================= */
+
+.page {
+    padding-top: 90px;
+    min-height: calc(100vh - 90px);
+    background-color: var(--page-bg);
+    box-sizing: border-box;
+}
+
+/* =========================
+   EMPTY STATE
+========================= */
+
+.empty-state {
+    min-height: 60vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--page-bg);
+}
+
+.empty-state h1 {
+    font-size: 2.5rem;
+    font-weight: 600;
+}
+
+/* =========================
+   GRID / HOME PRODUCTS
+========================= */
+
+.grid {
+    margin: 0 auto;
+    max-width: 90%;
+    width: 100%;
+    min-height: calc(100vh - 90px);
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    padding: 2rem;
+    background-color: var(--page-bg);
+    border-radius: 0.5rem;
+    box-sizing: border-box;
+}
+
+/* =========================
+   PRODUCT CARD
+========================= */
+
+.card {
+    padding: 1rem;
+    border-radius: 8px;
+    background-color: var(--card-bg-clr);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.card h5,
+.card h3,
+.card i {
+    color: var(--para-clr);
+}
+
+.card-brand {
+    font-size: 1.1rem;
+    font-weight: 400;
+    color: gray;
+}
+
+/* =========================
+   BUTTONS
+========================= */
+
+
+.btn-primary {
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+}
+
+.theme-btn {
+    background-color: var(--btn-bg);
+    color: var(--btn-clr);
+    border: 1px solid var(--button-clr);
+    margin: 10px;
+}
+
+/* =========================
+   DROPDOWN
+========================= */
+
+.dropdown-menu {
+    background-color: var(--card-bg-clr);
+}
+
+.dropdown-item {
+    color: var(--para-clr);
+}
+
+.dropdown-item:hover {
+    background-color: var(--category-hvr);
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 900px) {
+    .grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .grid {
+        grid-template-columns: 1fr;
+        padding: 1.5rem;
+    }
+
+    .empty-state h1 {
+        font-size: 1.8rem;
+        text-align: center;
+    }
+}
+.btn-hover.color-9 {
+    background: linear-gradient(135deg, #3fa9f5, #2b7de9);
+    color: white;
+
+    border: none;
+    border-radius: 30px;
+
+    padding: 12px 34px;
+    font-size: 16px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    box-shadow: 0 10px 20px rgba(63, 169, 245, 0.45);
+    transition: all 0.25s ease-in-out;
+}
+
+.btn-hover.color-9:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 14px 28px rgba(63, 169, 245, 0.6);
+}
+
+.btn-hover.color-9:active {
+    transform: translateY(0);
+    box-shadow: 0 8px 16px rgba(63, 169, 245, 0.4);
+}
+
+.btn-hover.color-9:disabled {
+    background: #bdbdbd;
+    cursor: not-allowed;
+    box-shadow: none;
+}

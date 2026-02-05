@@ -1,0 +1,361 @@
+
+
+/* /* /* =========================
+   Payment Container
+   ========================= */
+
+.payment-container {
+    min-height: 100vh;
+    padding: 40px 20px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+/* Light Theme */
+body.light-theme .payment-container {
+    background: linear-gradient(135deg, #c1c1c1 0%, #c1c1c1 100%);
+}
+
+/* Dark Theme */
+body.dark-theme .payment-container {
+    background: linear-gradient(135deg, #000 0%, #000 100%);
+}
+
+.payment-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.payment-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+}
+
+/* =========================
+   Cards (Summary + Payment)
+   ========================= */
+
+.payment-summary,
+.payment-form-section {
+    background: #fff;
+    border-radius: 14px;
+    padding: 30px;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+}
+
+body.dark-theme .payment-summary,
+body.dark-theme .payment-form-section {
+    background: #000;
+    color: #fff;
+}
+
+.payment-summary h3,
+.payment-form-section h3 {
+    font-weight: 600;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #667eea;
+    padding-bottom: 14px;
+    color: #333;
+}
+
+body.dark-theme .payment-summary h3,
+body.dark-theme .payment-form-section h3 {
+    color: #fff;
+}
+
+/* =========================
+   Order Summary
+   ========================= */
+
+.summary-section {
+    margin-bottom: 25px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #eee;
+}
+
+body.dark-theme .summary-section {
+    border-bottom-color: #444;
+}
+
+.summary-section h5 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #667eea;
+    margin-bottom: 10px;
+}
+
+.summary-section p {
+    font-size: 0.9rem;
+    color: #666;
+    margin: 4px 0;
+}
+
+body.dark-theme .summary-section p {
+    color: #ccc;
+}
+
+.summary-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    font-weight: 500;
+}
+
+.summary-item-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.summary-item-img {
+    width: 56px;
+    height: 56px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid #eee;
+}
+
+.summary-item-name {
+    font-weight: 600;
+    color: #333;
+}
+
+.summary-item-price {
+    font-weight: 700;
+    color: #333;
+}
+
+.summary-total {
+    background: #f8f9ff;
+    padding: 16px;
+    border-radius: 10px;
+    text-align: right;
+}
+
+.summary-total h4 {
+    margin: 0;
+    color: #667eea;
+}
+
+/* =========================
+   Payment Methods (Radio)
+   ========================= */
+
+.payment-methods {
+    display: grid;
+    gap: 15px;
+    margin-bottom: 35px;
+}
+
+.method-option {
+    display: flex;
+    align-items: center;
+    padding: 16px;
+    border-radius: 10px;
+    border: 2px solid #eee;
+    cursor: pointer;
+    transition: 0.3s ease;
+    gap: 12px;
+}
+
+.method-option:hover {
+    border-color: #667eea;
+    background: #f9f9ff;
+}
+
+.method-option input {
+    cursor: pointer;
+}
+
+.method-option span {
+    font-weight: 500;
+    font-size: 0.95rem;
+}
+
+.method-option input:checked + span {
+    color: #667eea;
+}
+
+/* =========================
+   Payment Detail Boxes
+   Card / UPI / NetBanking / Wallet
+   ========================= */
+
+.card-form,
+.other-payment {
+    margin-top: 25px;
+    padding: 25px;
+    border-radius: 14px;
+    border: 1px solid #e6e6e6;
+    background: linear-gradient(180deg, #ffffff, #f8f9ff);
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.08);
+    animation: fadeInPayment 0.35s ease-in-out;
+}
+
+body.dark-theme .card-form,
+body.dark-theme .other-payment {
+    background: linear-gradient(180deg, #111, #1a1a1a);
+    border-color: #333;
+    box-shadow: none;
+}
+
+.card-form h5,
+.other-payment h5 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px dashed #ccc;
+}
+
+body.dark-theme .card-form h5,
+body.dark-theme .other-payment h5 {
+    border-bottom-color: #444;
+}
+
+/* =========================
+   Forms
+   ========================= */
+
+.form-group {
+    margin-bottom: 18px;
+}
+
+.form-group label {
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-bottom: 6px;
+    display: block;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    height: 44px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    font-size: 0.95rem;
+}
+
+body.dark-theme .form-group input,
+body.dark-theme .form-group select {
+    background: #1a1a1a;
+    color: #fff;
+    border-color: #444;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.15);
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+/* Card Specific */
+input[name="cardNumber"] {
+    letter-spacing: 2px;
+}
+
+input[name="cvv"] {
+    text-align: center;
+    letter-spacing: 3px;
+}
+
+/* =========================
+   Buttons
+   ========================= */
+
+.button-group {
+    display: flex;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.button-group button {
+    flex: 1;
+    padding: 12px;
+    border-radius: 8px;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-secondary {
+    background: #eee;
+}
+
+.btn-success {
+    background: #28a745;
+    color: #fff;
+}
+
+.btn-success:hover {
+    background: #218838;
+    box-shadow: 0 6px 16px rgba(40, 167, 69, 0.45);
+}
+
+button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+/* =========================
+   Error Message
+   ========================= */
+
+.error-message {
+    background: #fff;
+    padding: 40px;
+    border-radius: 14px;
+    text-align: center;
+    max-width: 500px;
+    margin: auto;
+}
+
+/* =========================
+   Animations
+   ========================= */
+
+@keyframes fadeInPayment {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* =========================
+   Responsive
+   ========================= */
+
+@media (max-width: 768px) {
+    .payment-content {
+        grid-template-columns: 1fr;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .button-group {
+        flex-direction: column;
+    }
+
+    .payment-summary,
+    .payment-form-section {
+        padding: 22px;
+    }
+}
+ */
+ */

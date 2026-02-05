@@ -1,0 +1,272 @@
+.address-container {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 40px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+/* Light Theme Background */
+body.light-theme .address-container {
+    background-color: #c1c1c1;
+    background: linear-gradient(135deg, #c1c1c1 0%, #c1c1c1 100%);
+}
+
+/* Dark Theme Background */
+body.dark-theme .address-container {
+    background-color: #000;
+    background: linear-gradient(135deg, #000 0%, #000 100%);
+}
+
+.address-wrapper {
+    background: white;
+    border-radius: 12px;
+    padding: 40px;
+    max-width: 600px;
+    width: 100%;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+}
+
+/* Light Theme */
+body.light-theme .address-wrapper {
+    background: #c1c1c1;
+}
+
+/* Dark Theme */
+body.dark-theme .address-wrapper {
+    background: #000;
+    color: #fff;
+}
+
+.address-wrapper h2 {
+    color: #333;
+    font-weight: 600;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+body.dark-theme .address-wrapper h2 {
+    color: #fff;
+}
+
+.address-form {
+    margin-top: 30px;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #333;
+    font-size: 0.95rem;
+}
+
+body.dark-theme .form-group label {
+    color: #fff;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    transition: border-color 0.3s;
+}
+
+body.dark-theme .form-group input,
+body.dark-theme .form-group select {
+    background: #1a1a1a;
+    color: #fff;
+    border-color: #444;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.address-wrapper p {
+    color: #666;
+}
+
+body.dark-theme .address-wrapper p {
+    color: #ccc;
+}
+
+/* Previous Addresses Button */
+.btn-previous-addresses {
+    display: block;
+    margin: 15px 0 20px 0;
+    padding: 10px 16px;
+    background: #667eea;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: all 0.3s;
+}
+
+.btn-previous-addresses:hover {
+    background: #5568d3;
+    transform: translateY(-2px);
+}
+
+body.dark-theme .btn-previous-addresses {
+    background: #667eea;
+}
+
+/* Previous Addresses Container */
+.previous-addresses-container {
+    background: #f5f5f5;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 20px;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+body.dark-theme .previous-addresses-container {
+    background: #1a1a1a;
+    border-color: #444;
+}
+
+.previous-addresses-container h5 {
+    color: #333;
+    margin-top: 0;
+    margin-bottom: 12px;
+    font-size: 0.95rem;
+}
+
+body.dark-theme .previous-addresses-container h5 {
+    color: #fff;
+}
+
+/* Previous Address Card */
+.previous-address-card {
+    background: white;
+    border: 2px solid #e0e0e0;
+    border-radius: 6px;
+    padding: 12px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+body.dark-theme .previous-address-card {
+    background: #2d2d2d;
+    border-color: #444;
+}
+
+.previous-address-card:hover {
+    border-color: #667eea;
+    box-shadow: 0 3px 10px rgba(102, 126, 234, 0.2);
+}
+
+.address-preview {
+    flex: 1;
+}
+
+.addr-name {
+    font-weight: 600;
+    color: #333;
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+body.dark-theme .addr-name {
+    color: #fff;
+}
+
+.addr-text {
+    color: #666;
+    margin: 3px 0;
+    font-size: 0.8rem;
+}
+
+body.dark-theme .addr-text {
+    color: #aaa;
+}
+
+.use-btn {
+    background: #28a745;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    font-weight: 600;
+    transition: all 0.3s;
+    margin-left: 10px;
+}
+
+.use-btn:hover {
+    background: #218838;
+    transform: scale(1.05);
+}
+
+.button-group button {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-size: 0.95rem;
+}
+
+.button-group .btn-secondary {
+    background-color: #f0f0f0;
+    color: #333;
+}
+
+.button-group .btn-secondary:hover {
+    background-color: #e0e0e0;
+}
+
+.button-group .btn-primary {
+    background-color: #667eea;
+    color: white;
+}
+
+.button-group .btn-primary:hover {
+    background-color: #5568d3;
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+}
+
+@media (max-width: 600px) {
+    .address-wrapper {
+        padding: 20px;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .button-group {
+        flex-direction: column;
+    }
+}
