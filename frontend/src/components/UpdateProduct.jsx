@@ -1,19 +1,18 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-// 🔴 APPLIED HERE: useNavigate added
-
 import axios from "axios";
 import { toast } from "react-toastify";
 import "./UpdateProduct.css";
 
+/* ✅ BACKEND BASE URL */
+const BASE_URL = import.meta.env.VITE_API_URL;
+
 const UpdateProduct = () => {
   const { id } = useParams();
-
-  /* 🔴 APPLIED HERE: initialize navigation */
   const navigate = useNavigate();
 
-  const [image, setImage] = useState(null);              // NEW IMAGE (optional)
-  const [imagePreview, setImagePreview] = useState(""); // IMAGE PREVIEW
+  const [image, setImage] = useState(null);
+  const [imagePreview, setImagePreview] = useState("");
 
   const [updateProduct, setUpdateProduct] = useState({
     id: null,
@@ -32,14 +31,14 @@ const UpdateProduct = () => {
     const fetchProduct = async () => {
       try {
         const res = await axios.get(
-            `http://localhost:8080/api/product/${id}`
+          `${BASE_URL}/api/product/${id}`
         );
 
         setUpdateProduct(res.data);
 
-        // ✅ show existing image initially
+        // ✅ show existing image
         setImagePreview(
-            `http://localhost:8080/api/product/${id}/image`
+          `${BASE_URL}/api/product/${id}/image`
         );
       } catch (error) {
         toast.error("Failed to load product ❌");
@@ -60,7 +59,6 @@ const UpdateProduct = () => {
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
-
     if (file) {
       setImage(file);
       setImagePreview(URL.createObjectURL(file));
@@ -74,29 +72,25 @@ const UpdateProduct = () => {
     try {
       const formData = new FormData();
 
-      // ✅ append image ONLY if user selected a new one
       if (image) {
         formData.append("imageFile", image);
       }
 
       formData.append(
-          "product",
-          new Blob([JSON.stringify(updateProduct)], {
-            type: "application/json",
-          })
+        "product",
+        new Blob([JSON.stringify(updateProduct)], {
+          type: "application/json",
+        })
       );
 
       await axios.put(
-          `http://localhost:8080/api/product/${id}`,
-          formData,
-          { headers: { "Content-Type": "multipart/form-data" } }
+        `${BASE_URL}/api/product/${id}`,
+        formData,
+        { headers: { "Content-Type": "multipart/form-data" } }
       );
 
       toast.success("Product updated successfully 🎉");
-
-      /* 🔴 APPLIED HERE: redirect to Home AFTER success */
       navigate("/");
-
     } catch (error) {
       toast.error("Failed to update product ❌");
     }
@@ -104,109 +98,116 @@ const UpdateProduct = () => {
 
   /* ---------------- RENDER ---------------- */
   return (
-      <div className="update-product-container">
-        <div className="center-container" style={{ marginTop: "7rem" }}>
-          <h1>Update Product</h1>
+    <div className="update-product-container">
+      <div className="center-container" style={{ marginTop: "7rem" }}>
+        <h1>Update Product</h1>
 
-          <form className="row g-3 pt-1" onSubmit={handleSubmit}>
-            <div className="col-md-6">
-              <label><h6>Name</h6></label>
-              <input
-                  type="text"
-                  className="form-control"
-                  name="name"
-                  value={updateProduct.name}
-                  onChange={handleChange}
-              />
-            </div>
+        <form className="row g-3 pt-1" onSubmit={handleSubmit}>
+          <div className="col-md-6">
+            <label><h6>Name</h6></label>
+            <input
+              type="text"
+              className="form-control"
+              name="name"
+              value={updateProduct.name}
+              onChange={handleChange}
+            />
+          </div>
 
-            <div className="col-md-6">
-              <label><h6>Brand</h6></label>
-              <input
-                  type="text"
-                  className="form-control"
-                  name="brand"
-                  value={updateProduct.brand}
-                  onChange={handleChange}
-              />
-            </div>
+          <div className="col-md-6">
+            <label><h6>Brand</h6></label>
+            <input
+              type="text"
+              className="form-control"
+              name="brand"
+              value={updateProduct.brand}
+              onChange={handleChange}
+            />
+          </div>
 
-            <div className="col-12">
-              <label><h6>Description</h6></label>
-              <input
-                  type="text"
-                  className="form-control"
-                  name="description"
-                  value={updateProduct.description}
-                  onChange={handleChange}
-              />
-            </div>
+          <div className="col-12">
+            <label><h6>Description</h6></label>
+            <input
+              type="text"
+              className="form-control"
+              name="description"
+              value={updateProduct.description}
+              onChange={handleChange}
+            />
+          </div>
 
-            <div className="col-md-6">
-              <label><h6>Price</h6></label>
-              <input
-                  type="number"
-                  className="form-control"
-                  name="price"
-                  value={updateProduct.price}
-                  onChange={handleChange}
-              />
-            </div>
+          <div className="col-md-6">
+            <label><h6>Price</h6></label>
+            <input
+              type="number"
+              className="form-control"
+              name="price"
+              value={updateProduct.price}
+              onChange={handleChange}
+            />
+          </div>
 
-            <div className="col-md-6">
-              <label><h6>Stock Quantity</h6></label>
-              <input
-                  type="number"
-                  className="form-control"
-                  name="stockQuantity"
-                  value={updateProduct.stockQuantity}
-                  onChange={handleChange}
-              />
-            </div>
+          <div className="col-md-6">
+            <label><h6>Stock Quantity</h6></label>
+            <input
+              type="number"
+              className="form-control"
+              name="stockQuantity"
+              value={updateProduct.stockQuantity}
+              onChange={handleChange}
+            />
+          </div>
 
-            <div className="col-12">
-              <label><h6>Image</h6></label>
+          <div className="col-12">
+            <label><h6>Image</h6></label>
 
+            {imagePreview && (
               <img
-                  src={imagePreview}
-                  alt="product"
-                  style={{ width: "100%", height: "180px", objectFit: "cover" }}
+                src={imagePreview}
+                alt="product"
+                style={{
+                  width: "100%",
+                  height: "180px",
+                  objectFit: "cover",
+                  marginBottom: "10px",
+                }}
               />
+            )}
 
+            <input
+              type="file"
+              className="form-control"
+              onChange={handleImageChange}
+            />
+          </div>
+
+          <div className="col-12">
+            <div className="form-check">
               <input
-                  type="file"
-                  className="form-control mt-2"
-                  onChange={handleImageChange}
+                type="checkbox"
+                className="form-check-input"
+                checked={updateProduct.productAvailable}
+                onChange={(e) =>
+                  setUpdateProduct((prev) => ({
+                    ...prev,
+                    productAvailable: e.target.checked,
+                  }))
+                }
               />
+              <label className="form-check-label">
+                Product Available
+              </label>
             </div>
+          </div>
 
-            <div className="col-12">
-              <div className="form-check">
-                <input
-                    type="checkbox"
-                    className="form-check-input"
-                    checked={updateProduct.productAvailable}
-                    onChange={(e) =>
-                        setUpdateProduct((prev) => ({
-                          ...prev,
-                          productAvailable: e.target.checked,
-                        }))
-                    }
-                />
-                <label className="form-check-label">
-                  Product Available
-                </label>
-              </div>
-            </div>
-
-            <div className="col-12">
-              <button type="submit" className="btn btn-primary">
-                Update Product
-              </button>
-            </div>
-          </form>
-        </div>
+          <div className="col-12">
+            <button type="submit" className="btn btn-primary">
+              Update Product
+            </button>
+          </div>
+        </form>
       </div>
+    </div>
   );
 };
 
