@@ -3,12 +3,20 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "./Navbar.css";
+
+/* =======================
+   BACKEND BASE URL
+======================= */
+const BASE_URL = import.meta.env.VITE_API_URL;
+
+/* =======================
+   UTIL: AVATAR GRADIENT
+======================= */
 const generateGradientFromString = (str = "") => {
   let hash = 0;
   for (let i = 0; i < str.length; i++) {
     hash = str.charCodeAt(i) + ((hash << 5) - hash);
   }
-
   const hue1 = hash % 360;
   const hue2 = (hue1 + 40) % 360;
 
@@ -19,9 +27,8 @@ const generateGradientFromString = (str = "") => {
 };
 
 /* =======================
-   SVG ICONS
+   ICONS
 ======================= */
-
 const MoonIcon = () => (
   <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
     <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />
@@ -39,29 +46,23 @@ const SunIcon = () => (
 );
 
 /* =======================
-   NAVBAR COMPONENT
+   NAVBAR
 ======================= */
-
 const Navbar = ({ onSelectCategory }) => {
   const navigate = useNavigate();
 
-  const getInitialTheme = () => {
-    const storedTheme = localStorage.getItem("theme");
-    return storedTheme ? storedTheme : "light-theme";
-  };
+  const getInitialTheme = () =>
+    localStorage.getItem("theme") || "light-theme";
 
   const [theme, setTheme] = useState(getInitialTheme());
   const [input, setInput] = useState("");
   const [searchResults, setSearchResults] = useState([]);
-  const [noResults, setNoResults] = useState(false);
   const [showSearchResults, setShowSearchResults] = useState(false);
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [username, setUsername] = useState("");
   const [userId, setUserId] = useState(null);
   const [showAccountMenu, setShowAccountMenu] = useState(false);
-
-  // 🔑 controls photo vs initial
   const [photoAvailable, setPhotoAvailable] = useState(true);
 
   /* =======================
@@ -76,7 +77,7 @@ const Navbar = ({ onSelectCategory }) => {
       setIsLoggedIn(true);
       setUsername(user);
       setUserId(id);
-      setPhotoAvailable(true); // reset on login
+      setPhotoAvailable(true);
     } else {
       setIsLoggedIn(false);
       setUsername("");
@@ -102,6 +103,9 @@ const Navbar = ({ onSelectCategory }) => {
     };
   }, []);
 
+  /* =======================
+     THEME TOGGLE
+  ======================= */
   const toggleTheme = () => {
     const newTheme =
       theme === "dark-theme" ? "light-theme" : "dark-theme";
@@ -109,24 +113,25 @@ const Navbar = ({ onSelectCategory }) => {
     localStorage.setItem("theme", newTheme);
   };
 
+  /* =======================
+     SEARCH
+  ======================= */
   const handleChange = async (value) => {
     setInput(value);
 
-    if (value.length >= 1) {
+    if (value.trim().length > 0) {
       setShowSearchResults(true);
       try {
         const response = await axios.get(
-          `http://localhost:8080/api/products/search?keyword=${value}`
+          `${BASE_URL}/api/products/search?keyword=${value}`
         );
-        setSearchResults(response.data);
-        setNoResults(response.data.length === 0);
-      } catch (error) {
-        console.error("Search error:", error);
+        setSearchResults(response.data || []);
+      } catch (err) {
+        console.error("Search error:", err);
       }
     } else {
       setShowSearchResults(false);
       setSearchResults([]);
-      setNoResults(false);
     }
   };
 
@@ -139,6 +144,9 @@ const Navbar = ({ onSelectCategory }) => {
     }
   };
 
+  /* =======================
+     LOGOUT
+  ======================= */
   const handleLogout = () => {
     localStorage.clear();
     setIsLoggedIn(false);
@@ -162,7 +170,7 @@ const Navbar = ({ onSelectCategory }) => {
   ];
 
   const profilePhotoUrl = userId
-    ? `http://localhost:8080/api/auth/user/${userId}/photo`
+    ? `${BASE_URL}/api/auth/user/${userId}/photo`
     : null;
 
   return (
@@ -179,7 +187,11 @@ const Navbar = ({ onSelectCategory }) => {
               </li>
 
               <li className="nav-item dropdown">
-                <a className="nav-link dropdown-toggle" href="/" data-bs-toggle="dropdown">
+                <a
+                  className="nav-link dropdown-toggle"
+                  href="/"
+                  data-bs-toggle="dropdown"
+                >
                   Categories
                 </a>
                 <ul className="dropdown-menu">
@@ -223,34 +235,38 @@ const Navbar = ({ onSelectCategory }) => {
                     className="account-btn"
                     onClick={() => setShowAccountMenu(!showAccountMenu)}
                   >
-                   <div className="profile-avatar">
-  {photoAvailable ? (
-    <img
-      src={profilePhotoUrl}
-      alt={username}
-      onError={() => setPhotoAvailable(false)}
-    />
-  ) : (
-    <div
-      className="avatar-initial"
-      style={{
-        background: generateGradientFromString(username)
-      }}
-    >
-      {username?.charAt(0)?.toUpperCase() || "?"}
-    </div>
-  )}
-</div>
+                    <div className="profile-avatar">
+                      {photoAvailable ? (
+                        <img
+                          src={profilePhotoUrl}
+                          alt={username}
+                          onError={() => setPhotoAvailable(false)}
+                        />
+                      ) : (
+                        <div
+                          className="avatar-initial"
+                          style={{
+                            background: generateGradientFromString(username),
+                          }}
+                        >
+                          {username?.charAt(0)?.toUpperCase() || "?"}
+                        </div>
+                      )}
+                    </div>
 
                     <span className="username-text">{username}</span>
                   </button>
 
                   {showAccountMenu && (
                     <div className="account-dropdown">
-                      <a href="/account/profile" className="dropdown-item">My Profile</a>
-                      {/* <a href="/account/orders" className="dropdown-item">My Orders</a> */}
+                      <a href="/account/profile" className="dropdown-item">
+                        My Profile
+                      </a>
                       <hr className="dropdown-divider" />
-                      <button className="dropdown-item logout-btn" onClick={handleLogout}>
+                      <button
+                        className="dropdown-item logout-btn"
+                        onClick={handleLogout}
+                      >
                         Logout
                       </button>
                     </div>
