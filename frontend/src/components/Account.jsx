@@ -1214,6 +1214,6 @@ const handleDefaultPayment = async (paymentId) => {
       </div>
     </div>
   );
-};
+})
 
 export default Account;
