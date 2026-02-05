@@ -1,11 +1,15 @@
 import axios from "axios";
 
-/* ✅ BACKEND BASE URL FROM ENV */
 const API = axios.create({
-  baseURL: `${import.meta.env.VITE_API_URL}/api`,
+  baseURL: import.meta.env.VITE_API_BASE_URL + "/api",
 });
 
-/* ❌ REMOVE AUTH HEADER BY DEFAULT */
-delete API.defaults.headers.common["Authorization"];
+API.interceptors.request.use((config) => {
+  const token = localStorage.getItem("token");
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
 
 export default API;
