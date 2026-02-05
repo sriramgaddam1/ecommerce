@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
 import "./Account.css";
+import API from "../api"; 
 const generateGradientFromString = (str = "") => {
   let hash = 0;
 
@@ -71,24 +72,6 @@ const Account = () => {
     isDefault: false,
   });
 
-  useEffect(() => {
-    // Check if user is logged in
-    const token = localStorage.getItem("token");
-    if (!token) {
-      navigate("/login");
-      return;
-    }
-
-    // Load user data from localStorage
-const user = localStorage.getItem("username");
-const userEmail = localStorage.getItem("userEmail");
-const id = localStorage.getItem("userId");
-
-setUsername(user || "");
-setEmail(userEmail || "");
-setUserId(id || "");
-setNewUsername(user || "");
-
 useEffect(() => {
   const token = localStorage.getItem("token");
   const id = localStorage.getItem("userId");
@@ -98,9 +81,14 @@ useEffect(() => {
     return;
   }
 
-  setUserId(id);
+  const user = localStorage.getItem("username");
+  const userEmail = localStorage.getItem("userEmail");
 
-  /* ✅ Load profile photo safely (NO localhost) */
+  setUsername(user || "");
+  setEmail(userEmail || "");
+  setUserId(id || "");
+  setNewUsername(user || "");
+
   setProfilePhoto(
     `${import.meta.env.VITE_API_BASE_URL}/api/auth/user/${id}/photo`
   );
@@ -110,6 +98,7 @@ useEffect(() => {
   fetchPaymentMethods(id);
   fetchOrders(id);
 }, [navigate]);
+
 
 
 const fetchOrders = async (id) => {
@@ -1192,4 +1181,4 @@ const handleDefaultPayment = async (paymentId) => {
   );
 };
 
-export default Account
+export default Account;
