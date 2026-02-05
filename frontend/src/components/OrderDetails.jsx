@@ -3,6 +3,11 @@ import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./OrderDetails.css";
 
+/* =======================
+   BACKEND BASE URL
+======================= */
+const BASE_URL = import.meta.env.VITE_API_URL;
+
 const OrderDetails = () => {
   const { orderId } = useParams();
   const navigate = useNavigate();
@@ -16,8 +21,11 @@ const OrderDetails = () => {
   const userId = localStorage.getItem("userId");
   const token = localStorage.getItem("token");
 
+  /* =======================
+     AXIOS INSTANCE
+  ======================= */
   const api = axios.create({
-    baseURL: "http://localhost:8080",
+    baseURL: BASE_URL,
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -39,8 +47,11 @@ const OrderDetails = () => {
         setLoading(false);
       }
     };
-    fetchOrder();
-  }, [orderId]);
+
+    if (userId && orderId) {
+      fetchOrder();
+    }
+  }, [orderId, userId]);
 
   /* =========================
      CANCEL ORDER
@@ -48,12 +59,15 @@ const OrderDetails = () => {
   const handleConfirmCancel = async () => {
     try {
       setCancelling(true);
+
       await api.put(
         `/api/auth/user/${userId}/orders/${orderId}/cancel`
       );
+
       const updated = await api.get(
         `/api/auth/user/${userId}/orders/${orderId}`
       );
+
       setOrder(updated.data);
       setShowConfirmModal(false);
     } catch {
@@ -106,8 +120,8 @@ const OrderDetails = () => {
             <p><strong>Placed:</strong> {new Date(order.createdAt).toLocaleString()}</p>
             <p>
               <strong>Payment:</strong>{" "}
-              {order.paymentMethod.charAt(0).toUpperCase() +
-                order.paymentMethod.slice(1)}
+              {order.paymentMethod?.charAt(0).toUpperCase() +
+                order.paymentMethod?.slice(1)}
             </p>
           </div>
 
@@ -124,9 +138,7 @@ const OrderDetails = () => {
             {order.items.map((item) => (
               <div key={item.id} className="item-row">
                 <span>{item.name} × {item.quantity}</span>
-                <span>
-                  ₹{(item.price * item.quantity).toFixed(2)}
-                </span>
+                <span>₹{(item.price * item.quantity).toFixed(2)}</span>
               </div>
             ))}
           </div>
@@ -142,19 +154,14 @@ const OrderDetails = () => {
 
           <div className="section">
             <h4>Payment Method</h4>
-            <span className="badge">
-              {order.paymentMethod}
-            </span>
+            <span className="badge">{order.paymentMethod}</span>
           </div>
 
           <div className="section">
             <h4>Status</h4>
-            <span className="status-light">
-              {order.status}
-            </span>
+            <span className="status-light">{order.status}</span>
           </div>
 
-          {/* DELIVERY DATE */}
           <div className="section">
             <h4>Delivery Date</h4>
             <p className="delivery-date">
@@ -174,7 +181,6 @@ const OrderDetails = () => {
             </button>
           )}
 
-          {/* ACTION BUTTONS INSIDE RIGHT CARD */}
           <div className="card-actions">
             <button
               className="back-btn"
@@ -200,9 +206,7 @@ const OrderDetails = () => {
             <h3>Cancel Order?</h3>
             <p>This action cannot be undone.</p>
             <div className="modal-actions">
-              <button onClick={() => setShowConfirmModal(false)}>
-                No
-              </button>
+              <button onClick={() => setShowConfirmModal(false)}>No</button>
               <button
                 onClick={handleConfirmCancel}
                 disabled={cancelling}
