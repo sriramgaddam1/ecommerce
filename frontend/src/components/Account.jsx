@@ -111,9 +111,7 @@ useEffect(() => {
   fetchOrders(id);
 }, [navigate]);
 
-/* =========================
-   FETCH ORDERS
-========================= */
+
 const fetchOrders = async (id) => {
   try {
     const response = await API.get(`/auth/user/${id}/orders`);
@@ -124,9 +122,7 @@ const fetchOrders = async (id) => {
   }
 };
 
-/* =========================
-   VIEW ORDER DETAILS
-========================= */
+
 const handleViewDetails = async (orderId) => {
   try {
     const resp = await API.get(
@@ -140,9 +136,7 @@ const handleViewDetails = async (orderId) => {
   }
 };
 
-/* =========================
-   REORDER
-========================= */
+
 const handleReorder = async (orderId) => {
   if (!window.confirm("Do you want to reorder this order?")) return;
 
@@ -164,9 +158,8 @@ const handleReorder = async (orderId) => {
   }
 };
 
-/* =========================
-   CANCEL ORDER
-========================= */
+
+
 const handleCancelOrder = async (orderId) => {
   if (
     !window.confirm(
@@ -199,9 +192,7 @@ const closeOrderModal = () => {
   setSelectedOrder(null);
 };
 
-/* =========================
-   FETCH USER PROFILE
-========================= */
+
 const fetchUserProfile = async (id) => {
   try {
     const response = await API.get(
@@ -218,9 +209,7 @@ const fetchUserProfile = async (id) => {
   }
 };
 
-/* =========================
-   FETCH ADDRESSES
-========================= */
+
 const fetchAddresses = async (id) => {
   try {
     const response = await API.get(
@@ -232,9 +221,7 @@ const fetchAddresses = async (id) => {
   }
 };
 
-/* =========================
-   FETCH PAYMENT METHODS
-========================= */
+
 const fetchPaymentMethods = async (id) => {
   try {
     const response = await API.get(
@@ -257,18 +244,14 @@ useEffect(() => {
   else if (pathname.includes("/account/support")) setActiveTab("support");
 }, [location]);
 
-/* =========================
-   LOGOUT
-========================= */
+
 const handleLogout = () => {
   localStorage.clear();
   toast.success("Logged out successfully!");
   navigate("/login");
 };
 
-/* =========================
-   PHOTO SELECT (PREVIEW ONLY)
-========================= */
+
 const handlePhotoSelect = (e) => {
   const file = e.target.files[0];
   if (!file) return;
@@ -285,9 +268,7 @@ const handlePhotoSelect = (e) => {
   reader.readAsDataURL(file);
 };
 
-/* =========================
-   UPDATE PROFILE (FIXED & DEPLOY SAFE)
-========================= */
+
 const handleUpdateProfile = async () => {
   if (!newUsername.trim()) {
     toast.error("Username cannot be empty");
@@ -357,9 +338,7 @@ const handleAddressChange = (e) => {
   }));
 };
 
-/* =========================
-   ADD / UPDATE ADDRESS
-========================= */
+
 const handleSaveAddress = async () => {
   if (
     !addressForm.label ||
@@ -550,8 +529,7 @@ const handleDeletePayment = async (paymentId) => {
     fetchPaymentMethods(userId);
   } catch (error) {
     toast.error(
-      error.response?.data?.message || "Error deleting payment method"
-    );
+      error.response?.data?.message || "Error deleting payment method");
   }
 };
 
@@ -560,15 +538,13 @@ const handleDeletePayment = async (paymentId) => {
 const handleDefaultPayment = async (paymentId) => {
   try {
     await API.put(
-      `/auth/user/${userId}/payment-method/${paymentId}/default`
-    );
+      `/auth/user/${userId}/payment-method/${paymentId}/default`);
 
     toast.success("Default payment method updated!");
     fetchPaymentMethods(userId);
   } catch (error) {
     toast.error(
-      error.response?.data?.message || "Error updating default payment method"
-    );
+      error.response?.data?.message || "Error updating default payment method");
   }
 };
 
@@ -1216,4 +1192,4 @@ const handleDefaultPayment = async (paymentId) => {
   );
 };
 
-export default Account;
+export default Account
