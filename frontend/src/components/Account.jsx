@@ -89,11 +89,6 @@ setEmail(userEmail || "");
 setUserId(id || "");
 setNewUsername(user || "");
 
-import API from "../axios";
-
-/* =========================
-   INITIAL LOAD
-========================= */
 useEffect(() => {
   const token = localStorage.getItem("token");
   const id = localStorage.getItem("userId");
