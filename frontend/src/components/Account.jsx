@@ -1012,39 +1012,54 @@ const handleDefaultPayment = async (paymentId) => {
                 </div>
               )}
 
-              <div className="payments-list">
-                {paymentMethods.length > 0 ? (
-                  {Array.isArray(paymentMethods) && paymentMethods.map(method => (
-                    <div key={method.id} className="payment-card">
-                      <div className="card-icon">
-                        <i className="bi bi-credit-card"></i>
-                      </div>
-                      <div className="card-details">
-                        <h3>{method.cardType} Card</h3>
-                        <p>Card ending in {method.cardNumber}</p>
-                        <p className="expiry">Expires: {method.expiryMonth}/{method.expiryYear}</p>
-                        <p className="cardholder">{method.cardholderName}</p>
-                      </div>
-                      <div className="card-actions">
-                        {!method.isDefault && (
-                          <button className="default-btn" onClick={() => handleDefaultPayment(method.id)}>
-                            Set as Default
-                          </button>
-                        )}
-                        {method.isDefault && <span className="default-badge">Default</span>}
-                        <button className="delete-link" onClick={() => handleDeletePayment(method.id)}>Delete</button>
-                      </div>
-                    </div>
-                  ))
-                ) : (
-                  <div className="empty-message">
-                    <i className="bi bi-credit-card"></i>
-                    <p>No payment methods saved. Add one for faster checkout!</p>
-                  </div>
-                )}
-              </div>
-            </div>
+             <div className="payments-list">
+  {Array.isArray(paymentMethods) && paymentMethods.length > 0 ? (
+    paymentMethods.map((method) => (
+      <div key={method.id} className="payment-card">
+        <div className="card-icon">
+          <i className="bi bi-credit-card"></i>
+        </div>
+
+        <div className="card-details">
+          <h3>{method.cardType} Card</h3>
+          <p>Card ending in {method.cardNumber}</p>
+          <p className="expiry">
+            Expires: {method.expiryMonth}/{method.expiryYear}
+          </p>
+          <p className="cardholder">{method.cardholderName}</p>
+        </div>
+
+        <div className="card-actions">
+          {!method.isDefault && (
+            <button
+              className="default-btn"
+              onClick={() => handleDefaultPayment(method.id)}
+            >
+              Set as Default
+            </button>
           )}
+
+          {method.isDefault && (
+            <span className="default-badge">Default</span>
+          )}
+
+          <button
+            className="delete-link"
+            onClick={() => handleDeletePayment(method.id)}
+          >
+            Delete
+          </button>
+        </div>
+      </div>
+    ))
+  ) : (
+    <div className="empty-message">
+      <i className="bi bi-credit-card"></i>
+      <p>No payment methods saved. Add one for faster checkout!</p>
+    </div>
+  )}
+</div>
+
 
           {/* Orders Tab */}
           {activeTab === "orders" && (
@@ -1083,56 +1098,87 @@ const handleDefaultPayment = async (paymentId) => {
                     </div>
                   </div>
                 )}
-                {orders && orders.length > 0 ? (
-                 {Array.isArray(orders) && orders.map(order => (
-                    <div key={order.id || order.orderId} className="order-card">
-                      <div className="order-header">
-                        <div className="order-number">
-                          <h3>Order {order.orderNumber ? `#${order.orderNumber}` : `#${order.id || order.orderId}`}</h3>
-                          <p className="date">Placed on: {new Date(order.createdAt || order.date || Date.now()).toLocaleDateString()}</p>
-                        </div>
-                        <span className={`status-badge ${order.status ? order.status.toLowerCase() : ''}`}>{order.status || 'Placed'}</span>
-                      </div>
-                      <div className="order-items">
-                        <p>
-                          <strong>Items:</strong> {order.items ? order.items.length : (order.itemCount || 0)} products
-                        </p>
-                        <p>
-                          <strong>Total:</strong> ₹{order.totalPrice || order.amount || 0}
-                        </p>
-                      </div>
-                      <div className="order-actions">
-                      <button
-  className="view-btn"
-  onClick={() => navigate(`/account/orders/${order.id}`)}
->
-  View Details
-</button>
+       <div className="orders-list">
+  {Array.isArray(orders) && orders.length > 0 ? (
+    orders.map((order) => (
+      <div key={order.id || order.orderId} className="order-card">
+        <div className="order-header">
+          <div className="order-number">
+            <h3>
+              Order{" "}
+              {order.orderNumber
+                ? `#${order.orderNumber}`
+                : `#${order.id || order.orderId}`}
+            </h3>
+            <p className="date">
+              Placed on:{" "}
+              {new Date(
+                order.createdAt || order.date || Date.now()
+              ).toLocaleDateString()}
+            </p>
+          </div>
 
-<button
-  className="track-btn"
-  onClick={() => navigate(`/account/orders/${order.id}`)}
->
-  Track Order
-</button>
+          <span
+            className={`status-badge ${
+              order.status ? order.status.toLowerCase() : ""
+            }`}
+          >
+            {order.status || "Placed"}
+          </span>
+        </div>
 
+        <div className="order-items">
+          <p>
+            <strong>Items:</strong>{" "}
+            {order.items ? order.items.length : order.itemCount || 0} products
+          </p>
+          <p>
+            <strong>Total:</strong> ₹{order.totalPrice || order.amount || 0}
+          </p>
+        </div>
 
-                        {order.status !== "Cancelled" && (
-                          <button className="cancel-btn" onClick={() => handleCancelOrder(order.id)}>Cancel Order</button>
-                        )}
-                        <button className="reorder-btn" onClick={() => handleReorder(order.id)} disabled={isReordering}>Reorder</button>
-                      </div>
-                    </div>
-                  ))
-                ) : (
-                  <div className="empty-message">
-                    <i className="bi bi-box"></i>
-                    <p>No orders yet. Start shopping now!</p>
-                  </div>
-                )}
-              </div>
-            </div>
+        <div className="order-actions">
+          <button
+            className="view-btn"
+            onClick={() => navigate(`/account/orders/${order.id}`)}
+          >
+            View Details
+          </button>
+
+          <button
+            className="track-btn"
+            onClick={() => navigate(`/account/orders/${order.id}`)}
+          >
+            Track Order
+          </button>
+
+          {order.status !== "Cancelled" && (
+            <button
+              className="cancel-btn"
+              onClick={() => handleCancelOrder(order.id)}
+            >
+              Cancel Order
+            </button>
           )}
+
+          <button
+            className="reorder-btn"
+            onClick={() => handleReorder(order.id)}
+            disabled={isReordering}
+          >
+            Reorder
+          </button>
+        </div>
+      </div>
+    ))
+  ) : (
+    <div className="empty-message">
+      <i className="bi bi-box"></i>
+      <p>No orders yet. Start shopping now!</p>
+    </div>
+  )}
+</div>
+
 
           {/* Support Tab */}
           {activeTab === "support" && (
