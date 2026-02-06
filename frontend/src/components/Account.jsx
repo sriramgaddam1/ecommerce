@@ -1045,7 +1045,7 @@ const handleDefaultPayment = async (paymentId) => {
     </div>
   )}
 </div>
-</div>   {/* ✅ THIS WAS MISSING */}
+</div> 
 )}
 
 
