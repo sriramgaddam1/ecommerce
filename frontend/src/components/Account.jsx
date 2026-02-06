@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
-import axios from "axios";
 import "./Account.css";
 import API from "../axios"; 
 const generateGradientFromString = (str = "") => {
@@ -139,7 +138,7 @@ const handleReorder = async (orderId) => {
 
     toast.success("Reorder placed successfully!");
     fetchOrders(userId);
-   setSelectedOrder(response?.data || null);
+   setSelectedOrder(resp?.data || null);
     setShowOrderModal(true);
   } catch (err) {
     console.error("Reorder failed", err);
@@ -624,28 +623,28 @@ const handleDefaultPayment = async (paymentId) => {
                 <div className="photo-upload-section">
                   <div className="photo-preview-container">
                  {photoPreview ? (
-  <img
-    src={photoPreview}
-    alt="Preview"
-    className="photo-preview"
-  />
-) : profilePhoto ? (
-  <img
-    src={profilePhoto}
-    alt="Current"
-    className="photo-preview"
-    onError={(e) => {
-      e.currentTarget.onerror = null;
-      e.currentTarget.src = "";
-      setProfilePhoto(null);
-    }}
-  />
-) : (
-  <div className="photo-placeholder">
-    <i className="bi bi-image"></i>
-    <p>No photo uploaded</p>
-  </div>
-)}
+                            <img
+                            src={photoPreview}
+                            alt="Preview"
+                            className="photo-preview"
+                            />
+                            ) : profilePhoto ? (
+                            <img
+                            src={profilePhoto}
+                            alt="Current"
+                            className="photo-preview"
+                            onError={(e) => {
+                              e.currentTarget.onerror = null;
+                              e.currentTarget.src = "";
+                              setProfilePhoto(null);
+                            }}
+                            />
+                            ) : (
+                            <div className="photo-placeholder">
+                            <i className="bi bi-image"></i>
+                            <p>No photo uploaded</p>
+                            </div>
+                            )}
 
                   </div>
                   <div className="photo-upload-controls">
@@ -721,6 +720,7 @@ const handleDefaultPayment = async (paymentId) => {
                   <i className="bi bi-plus-circle"></i> Add New Address
                 </button>
               </div>
+              
 
               {/* Address Form */}
               {showAddressForm && (
@@ -879,6 +879,7 @@ const handleDefaultPayment = async (paymentId) => {
     </div>
   )}
 </div>
+  )}
 
 
 
@@ -1047,122 +1048,121 @@ const handleDefaultPayment = async (paymentId) => {
 
 
           {/* Orders Tab */}
-          {activeTab === "orders" && (
-            <div className="tab-content">
-              <h2>My Orders</h2>
-              <div className="orders-list">
-                {showOrderModal && selectedOrder && (
-                  <div className="order-modal">
-                    <div className="modal-content">
-                      <button className="modal-close" onClick={closeOrderModal}>×</button>
-                      <h3>Order Details</h3>
-                      <p><strong>Order:</strong> {selectedOrder.orderNumber || `#${selectedOrder.id}`}</p>
-                      <p><strong>Status:</strong> {selectedOrder.status}</p>
-                      <p><strong>Placed:</strong> {new Date(selectedOrder.createdAt).toLocaleString()}</p>
+         {activeTab === "orders" && (
+  <div className="tab-content">
+    <h2>My Orders</h2>
 
-                      <h4>Items</h4>
-                      <div className="order-items-list">
-                        {selectedOrder.items && selectedOrder.items.map(it => (
-                          <div key={it.id} className="order-item">
-                            <div>{it.name} × {it.quantity}</div>
-                            <div>₹{it.price}</div>
-                          </div>
-                        ))}
-                      </div>
+    <div className="orders-list">
+      {showOrderModal && selectedOrder && (
+        <div className="order-modal">
+          <div className="modal-content">
+            <button className="modal-close" onClick={closeOrderModal}>×</button>
 
-                      <h4>Delivery</h4>
-                      <pre className="address-json">{JSON.stringify(JSON.parse(selectedOrder.addressJson || '{}'), null, 2)}</pre>
+            <h3>Order Details</h3>
+            <p><strong>Order:</strong> {selectedOrder.orderNumber || `#${selectedOrder.id}`}</p>
+            <p><strong>Status:</strong> {selectedOrder.status}</p>
+            <p><strong>Placed:</strong> {new Date(selectedOrder.createdAt).toLocaleString()}</p>
 
-                      <div className="modal-actions">
-                        <button className="btn btn-secondary" onClick={closeOrderModal}>Close</button>
-                        {selectedOrder.status !== "Cancelled" && (
-                          <button className="btn btn-danger" onClick={() => { handleCancelOrder(selectedOrder.id); closeOrderModal(); }}>Cancel Order</button>
-                        )}
-                        <button className="btn btn-primary" onClick={() => { closeOrderModal(); handleReorder(selectedOrder.id); }}>Reorder</button>
-                      </div>
-                    </div>
+            <h4>Items</h4>
+            <div className="order-items-list">
+              {Array.isArray(selectedOrder.items) &&
+                selectedOrder.items.map((it) => (
+                  <div key={it.id} className="order-item">
+                    <div>{it.name} × {it.quantity}</div>
+                    <div>₹{it.price}</div>
                   </div>
-                )}
-       <div className="orders-list">
-  {Array.isArray(orders) && orders.length > 0 ? (
-    orders.map((order) => (
-      <div key={order.id || order.orderId} className="order-card">
-        <div className="order-header">
-          <div className="order-number">
-            <h3>
-              Order{" "}
-              {order.orderNumber
-                ? `#${order.orderNumber}`
-                : `#${order.id || order.orderId}`}
-            </h3>
-            <p className="date">
-              Placed on:{" "}
-              {new Date(
-                order.createdAt || order.date || Date.now()
-              ).toLocaleDateString()}
-            </p>
+                ))}
+            </div>
+
+            <h4>Delivery</h4>
+            <pre className="address-json">
+              {JSON.stringify(JSON.parse(selectedOrder.addressJson || "{}"), null, 2)}
+            </pre>
+
+            <div className="modal-actions">
+              <button className="btn btn-secondary" onClick={closeOrderModal}>Close</button>
+
+              {selectedOrder.status !== "Cancelled" && (
+                <button
+                  className="btn btn-danger"
+                  onClick={() => {
+                    handleCancelOrder(selectedOrder.id);
+                    closeOrderModal();
+                  }}
+                >
+                  Cancel Order
+                </button>
+              )}
+
+              <button
+                className="btn btn-primary"
+                onClick={() => {
+                  closeOrderModal();
+                  handleReorder(selectedOrder.id);
+                }}
+              >
+                Reorder
+              </button>
+            </div>
           </div>
-
-          <span
-            className={`status-badge ${
-              order.status ? order.status.toLowerCase() : ""
-            }`}
-          >
-            {order.status || "Placed"}
-          </span>
         </div>
+      )}
 
-        <div className="order-items">
-          <p>
-            <strong>Items:</strong>{" "}
-            {order.items ? order.items.length : order.itemCount || 0} products
-          </p>
-          <p>
-            <strong>Total:</strong> ₹{order.totalPrice || order.amount || 0}
-          </p>
+      {Array.isArray(orders) && orders.length > 0 ? (
+        orders.map((order) => (
+          <div key={order.id || order.orderId} className="order-card">
+            <div className="order-header">
+              <div className="order-number">
+                <h3>
+                  Order {order.orderNumber ? `#${order.orderNumber}` : `#${order.id || order.orderId}`}
+                </h3>
+                <p className="date">
+                  Placed on:{" "}
+                  {new Date(order.createdAt || order.date || Date.now()).toLocaleDateString()}
+                </p>
+              </div>
+
+              <span className={`status-badge ${order.status?.toLowerCase() || ""}`}>
+                {order.status || "Placed"}
+              </span>
+            </div>
+
+            <div className="order-items">
+              <p><strong>Items:</strong> {order.items?.length || order.itemCount || 0}</p>
+              <p><strong>Total:</strong> ₹{order.totalPrice || order.amount || 0}</p>
+            </div>
+
+            <div className="order-actions">
+              <button className="view-btn" onClick={() => handleViewDetails(order.id)}>
+                View Details
+              </button>
+
+              {order.status !== "Cancelled" && (
+                <button className="cancel-btn" onClick={() => handleCancelOrder(order.id)}>
+                  Cancel Order
+                </button>
+              )}
+
+              <button
+                className="reorder-btn"
+                onClick={() => handleReorder(order.id)}
+                disabled={isReordering}
+              >
+                Reorder
+              </button>
+            </div>
+          </div>
+        ))
+      ) : (
+        <div className="empty-message">
+          <i className="bi bi-box"></i>
+          <p>No orders yet. Start shopping now!</p>
         </div>
-
-        <div className="order-actions">
-          <button
-            className="view-btn"
-            onClick={() => navigate(`/account/orders/${order.id}`)}
-          >
-            View Details
-          </button>
-
-          <button
-            className="track-btn"
-            onClick={() => navigate(`/account/orders/${order.id}`)}
-          >
-            Track Order
-          </button>
-
-          {order.status !== "Cancelled" && (
-            <button
-              className="cancel-btn"
-              onClick={() => handleCancelOrder(order.id)}
-            >
-              Cancel Order
-            </button>
-          )}
-
-          <button
-            className="reorder-btn"
-            onClick={() => handleReorder(order.id)}
-            disabled={isReordering}
-          >
-            Reorder
-          </button>
-        </div>
-      </div>
-    ))
-  ) : (
-    <div className="empty-message">
-      <i className="bi bi-box"></i>
-      <p>No orders yet. Start shopping now!</p>
+      )}
     </div>
-  )}
-</div>
+  </div>
+)}
+
 
 
           {/* Support Tab */}
