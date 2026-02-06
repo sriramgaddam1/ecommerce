@@ -1050,11 +1050,13 @@ const handleDefaultPayment = async (paymentId) => {
 
 
           {/* Orders Tab */}
-         {activeTab === "orders" && (
+       {activeTab === "orders" && (
   <div className="tab-content">
     <h2>My Orders</h2>
 
+    {/* Orders list */}
     <div className="orders-list">
+
       {showOrderModal && selectedOrder && (
         <div className="order-modal">
           <div className="modal-content">
@@ -1068,7 +1070,7 @@ const handleDefaultPayment = async (paymentId) => {
             <h4>Items</h4>
             <div className="order-items-list">
               {Array.isArray(selectedOrder.items) &&
-                selectedOrder.items.map((it) => (
+                selectedOrder.items.map(it => (
                   <div key={it.id} className="order-item">
                     <div>{it.name} × {it.quantity}</div>
                     <div>₹{it.price}</div>
@@ -1076,94 +1078,31 @@ const handleDefaultPayment = async (paymentId) => {
                 ))}
             </div>
 
-            <h4>Delivery</h4>
-            <pre className="address-json">
-              {JSON.stringify(JSON.parse(selectedOrder.addressJson || "{}"), null, 2)}
-            </pre>
-
             <div className="modal-actions">
-              <button className="btn btn-secondary" onClick={closeOrderModal}>Close</button>
-
-              {selectedOrder.status !== "Cancelled" && (
-                <button
-                  className="btn btn-danger"
-                  onClick={() => {
-                    handleCancelOrder(selectedOrder.id);
-                    closeOrderModal();
-                  }}
-                >
-                  Cancel Order
-                </button>
-              )}
-
-              <button
-                className="btn btn-primary"
-                onClick={() => {
-                  closeOrderModal();
-                  handleReorder(selectedOrder.id);
-                }}
-              >
-                Reorder
-              </button>
+              <button onClick={closeOrderModal}>Close</button>
             </div>
           </div>
         </div>
       )}
 
       {Array.isArray(orders) && orders.length > 0 ? (
-        orders.map((order) => (
+        orders.map(order => (
           <div key={order.id || order.orderId} className="order-card">
-            <div className="order-header">
-              <div className="order-number">
-                <h3>
-                  Order {order.orderNumber ? `#${order.orderNumber}` : `#${order.id || order.orderId}`}
-                </h3>
-                <p className="date">
-                  Placed on:{" "}
-                  {new Date(order.createdAt || order.date || Date.now()).toLocaleDateString()}
-                </p>
-              </div>
-
-              <span className={`status-badge ${order.status?.toLowerCase() || ""}`}>
-                {order.status || "Placed"}
-              </span>
-            </div>
-
-            <div className="order-items">
-              <p><strong>Items:</strong> {order.items?.length || order.itemCount || 0}</p>
-              <p><strong>Total:</strong> ₹{order.totalPrice || order.amount || 0}</p>
-            </div>
-
-            <div className="order-actions">
-              <button className="view-btn" onClick={() => handleViewDetails(order.id)}>
-                View Details
-              </button>
-
-              {order.status !== "Cancelled" && (
-                <button className="cancel-btn" onClick={() => handleCancelOrder(order.id)}>
-                  Cancel Order
-                </button>
-              )}
-
-              <button
-                className="reorder-btn"
-                onClick={() => handleReorder(order.id)}
-                disabled={isReordering}
-              >
-                Reorder
-              </button>
-            </div>
+            <h3>Order #{order.id}</h3>
+            <p>Status: {order.status}</p>
           </div>
         ))
       ) : (
         <div className="empty-message">
-          <i className="bi bi-box"></i>
-          <p>No orders yet. Start shopping now!</p>
+          <p>No orders yet.</p>
         </div>
       )}
-    </div>
+
+    </div> {/* ✅ closes orders-list */}
+
   </div>
 )}
+
 
 
 
