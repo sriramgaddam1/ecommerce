@@ -1175,8 +1175,6 @@ const handleDefaultPayment = async (paymentId) => {
             </div>
           )}
         </div>
-      </div>
-    </div>
   );
 };
 
