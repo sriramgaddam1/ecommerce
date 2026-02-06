@@ -863,25 +863,10 @@ const handleDefaultPayment = async (paymentId) => {
         <p className="address-text">Phone: {address.phoneNumber}</p>
 
         <div className="address-actions">
-          <button
-            className="edit-link"
-            onClick={() => handleEditAddress(address)}
-          >
-            Edit
-          </button>
-
-          <button
-            className="delete-link"
-            onClick={() => handleDeleteAddress(address.id)}
-          >
-            Delete
-          </button>
-
+          <button onClick={() => handleEditAddress(address)}>Edit</button>
+          <button onClick={() => handleDeleteAddress(address.id)}>Delete</button>
           {!address.isDefault && (
-            <button
-              className="default-link"
-              onClick={() => handleDefaultAddress(address.id)}
-            >
+            <button onClick={() => handleDefaultAddress(address.id)}>
               Set Default
             </button>
           )}
@@ -890,11 +875,11 @@ const handleDefaultPayment = async (paymentId) => {
     ))
   ) : (
     <div className="empty-message">
-      <i className="bi bi-geo-alt"></i>
-      <p>No addresses saved yet. Add your first address!</p>
+      <p>No addresses saved yet.</p>
     </div>
   )}
 </div>
+
 
 
           {/* Payment Methods Tab */}
