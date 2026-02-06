@@ -104,12 +104,14 @@ useEffect(() => {
 const fetchOrders = async (id) => {
   try {
     const response = await API.get(`/auth/user/${id}/orders`);
-    setOrders(response.data || []);
+    const data = Array.isArray(response?.data) ? response.data : [];
+    setOrders(data);
   } catch (error) {
     console.error("Error fetching orders:", error);
     setOrders([]);
   }
 };
+
 
 
 const handleViewDetails = async (orderId) => {
@@ -137,7 +139,7 @@ const handleReorder = async (orderId) => {
 
     toast.success("Reorder placed successfully!");
     fetchOrders(userId);
-    setSelectedOrder(resp.data);
+   setSelectedOrder(response?.data || null);
     setShowOrderModal(true);
   } catch (err) {
     console.error("Reorder failed", err);
@@ -201,24 +203,23 @@ const fetchUserProfile = async (id) => {
 
 const fetchAddresses = async (id) => {
   try {
-    const response = await API.get(
-      `/auth/user/${id}/addresses`
-    );
-    setAddresses(response.data || []);
+    const response = await API.get(`/auth/user/${id}/addresses`);
+    setAddresses(Array.isArray(response?.data) ? response.data : []);
   } catch (error) {
     console.error("Error fetching addresses:", error);
+    setAddresses([]);
   }
 };
 
 
+
 const fetchPaymentMethods = async (id) => {
   try {
-    const response = await API.get(
-      `/auth/user/${id}/payment-methods`
-    );
-    setPaymentMethods(response.data || []);
+    const response = await API.get(`/auth/user/${id}/payment-methods`);
+    setPaymentMethods(Array.isArray(response?.data) ? response.data : []);
   } catch (error) {
     console.error("Error fetching payment methods:", error);
+    setPaymentMethods([]);
   }
 };
 
@@ -839,7 +840,7 @@ const handleDefaultPayment = async (paymentId) => {
 
               <div className="addresses-list">
                 {addresses.length > 0 ? (
-                  addresses.map((address) => (
+                 {Array.isArray(addresses) && addresses.map(address => (
                     <div key={address.id} className="address-card">
                       <div className="address-header">
                         <h3>{address.label}</h3>
@@ -987,7 +988,7 @@ const handleDefaultPayment = async (paymentId) => {
 
               <div className="payments-list">
                 {paymentMethods.length > 0 ? (
-                  paymentMethods.map((method) => (
+                  {Array.isArray(paymentMethods) && paymentMethods.map(method => (
                     <div key={method.id} className="payment-card">
                       <div className="card-icon">
                         <i className="bi bi-credit-card"></i>
@@ -1057,7 +1058,7 @@ const handleDefaultPayment = async (paymentId) => {
                   </div>
                 )}
                 {orders && orders.length > 0 ? (
-                  orders.map((order) => (
+                 {Array.isArray(orders) && orders.map(order => (
                     <div key={order.id || order.orderId} className="order-card">
                       <div className="order-header">
                         <div className="order-number">
