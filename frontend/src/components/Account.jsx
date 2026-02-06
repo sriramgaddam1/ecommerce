@@ -200,16 +200,21 @@ const fetchUserProfile = async (id) => {
   }
 };
 
-
 const fetchAddresses = async (id) => {
   try {
     const response = await API.get(`/auth/user/${id}/addresses`);
-    setAddresses(Array.isArray(response?.data) ? response.data : []);
+
+    const data = Array.isArray(response?.data)
+      ? response.data
+      : [];
+
+    setAddresses(data);
   } catch (error) {
     console.error("Error fetching addresses:", error);
     setAddresses([]);
   }
 };
+
 
 
 
@@ -839,37 +844,58 @@ const handleDefaultPayment = async (paymentId) => {
               )}
 
               <div className="addresses-list">
-                {addresses.length > 0 ? (
-                 {Array.isArray(addresses) && addresses.map(address => (
-                    <div key={address.id} className="address-card">
-                      <div className="address-header">
-                        <h3>{address.label}</h3>
-                        {address.isDefault && <span className="default-badge">Default</span>}
-                      </div>
-                      <p className="address-text"><strong>{address.fullName}</strong></p>
-                      <p className="address-text">{address.street}</p>
-                      <p className="address-text">{address.city}, {address.state} {address.zipCode}</p>
-                      <p className="address-text">{address.country}</p>
-                      <p className="address-text">Phone: {address.phoneNumber}</p>
-                      <div className="address-actions">
-                        <button className="edit-link" onClick={() => handleEditAddress(address)}>Edit</button>
-                        <button className="delete-link" onClick={() => handleDeleteAddress(address.id)}>Delete</button>
-                        {!address.isDefault && (
-                          <button className="default-link" onClick={() => handleDefaultAddress(address.id)}>Set Default</button>
-                        )}
-                      </div>
-                    </div>
-                  ))
-                ) : (
-                  <div className="empty-message">
-                    <i className="bi bi-geo-alt"></i>
-                    <p>No addresses saved yet. Add your first address!</p>
-                  </div>
-                )}
-
-              </div>
-            </div>
+  {Array.isArray(addresses) && addresses.length > 0 ? (
+    addresses.map((address) => (
+      <div key={address.id} className="address-card">
+        <div className="address-header">
+          <h3>{address.label}</h3>
+          {address.isDefault && (
+            <span className="default-badge">Default</span>
           )}
+        </div>
+
+        <p className="address-text"><strong>{address.fullName}</strong></p>
+        <p className="address-text">{address.street}</p>
+        <p className="address-text">
+          {address.city}, {address.state} {address.zipCode}
+        </p>
+        <p className="address-text">{address.country}</p>
+        <p className="address-text">Phone: {address.phoneNumber}</p>
+
+        <div className="address-actions">
+          <button
+            className="edit-link"
+            onClick={() => handleEditAddress(address)}
+          >
+            Edit
+          </button>
+
+          <button
+            className="delete-link"
+            onClick={() => handleDeleteAddress(address.id)}
+          >
+            Delete
+          </button>
+
+          {!address.isDefault && (
+            <button
+              className="default-link"
+              onClick={() => handleDefaultAddress(address.id)}
+            >
+              Set Default
+            </button>
+          )}
+        </div>
+      </div>
+    ))
+  ) : (
+    <div className="empty-message">
+      <i className="bi bi-geo-alt"></i>
+      <p>No addresses saved yet. Add your first address!</p>
+    </div>
+  )}
+</div>
+
 
           {/* Payment Methods Tab */}
           {activeTab === "payments" && (
