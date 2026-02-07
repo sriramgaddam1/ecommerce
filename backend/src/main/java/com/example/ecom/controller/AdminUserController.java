@@ -21,7 +21,7 @@ import com.example.ecom.service.UserService;
 
 @RestController
 @RequestMapping("/api/admin")
-@CrossOrigin
+@CrossOrigin(origins = "*", allowedHeaders = "*", allowCredentials = "true") 
 public class AdminUserController {
 
     @Autowired
