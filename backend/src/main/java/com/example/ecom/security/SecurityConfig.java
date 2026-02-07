@@ -9,7 +9,6 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
-import java.util.List;
 
 @Configuration
 public class SecurityConfig {
@@ -35,31 +34,25 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         
-        // Allow all origins with pattern matching
+        // Use allowedOriginPatterns instead of allowedOrigins when using credentials
         configuration.setAllowedOriginPatterns(Arrays.asList("*"));
         
-        // Allow all HTTP methods
         configuration.setAllowedMethods(Arrays.asList(
             "GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"
         ));
         
-        // Allow all headers
         configuration.setAllowedHeaders(Arrays.asList("*"));
         
-        // Expose headers that frontend might need
         configuration.setExposedHeaders(Arrays.asList(
             "Authorization", 
-            "Content-Type",
-            "X-Total-Count"
+            "Content-Type"
         ));
         
-        // Allow credentials
+        // This is fine with allowedOriginPatterns
         configuration.setAllowCredentials(true);
         
-        // How long the browser should cache preflight requests (in seconds)
         configuration.setMaxAge(3600L);
         
-        // Apply to all endpoints
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         
