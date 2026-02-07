@@ -29,6 +29,7 @@ const Account = () => {
   const [userId, setUserId] = useState("");
   const [profilePhoto, setProfilePhoto] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [initialLoading, setInitialLoading] = useState(true);
   const [orders, setOrders] = useState([]);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [showOrderModal, setShowOrderModal] = useState(false);
@@ -93,15 +94,29 @@ const Account = () => {
       `${import.meta.env.VITE_API_BASE_URL}/api/auth/user/${id}/photo`
     );
 
-    fetchUserProfile(id);
-    fetchAddresses(id);
-    fetchPaymentMethods(id);
-    fetchOrders(id);
+    // Load all data
+    const loadData = async () => {
+      try {
+        await Promise.all([
+          fetchUserProfile(id),
+          fetchAddresses(id),
+          fetchPaymentMethods(id),
+          fetchOrders(id),
+        ]);
+      } catch (error) {
+        console.error("Error loading data:", error);
+      } finally {
+        setInitialLoading(false);
+      }
+    };
+
+    loadData();
   }, [navigate]);
 
   const fetchOrders = async (id) => {
     try {
       const response = await API.get(`/auth/user/${id}/orders`);
+      console.log("Orders response:", response?.data); // Debug log
       const data = Array.isArray(response?.data) ? response.data : [];
       setOrders(data);
     } catch (error) {
@@ -189,6 +204,7 @@ const Account = () => {
   const fetchAddresses = async (id) => {
     try {
       const response = await API.get(`/auth/user/${id}/addresses`);
+      console.log("Addresses response:", response?.data); // Debug log
       const data = Array.isArray(response?.data) ? response.data : [];
       setAddresses(data);
     } catch (error) {
@@ -200,7 +216,9 @@ const Account = () => {
   const fetchPaymentMethods = async (id) => {
     try {
       const response = await API.get(`/auth/user/${id}/payment-methods`);
-      setPaymentMethods(Array.isArray(response?.data) ? response.data : []);
+      console.log("Payment methods response:", response?.data); // Debug log
+      const data = Array.isArray(response?.data) ? response.data : [];
+      setPaymentMethods(data);
     } catch (error) {
       console.error("Error fetching payment methods:", error);
       setPaymentMethods([]);
@@ -495,6 +513,20 @@ const Account = () => {
       );
     }
   };
+
+  // Show loading spinner while initial data loads
+  if (initialLoading) {
+    return (
+      <div className="account-container" style={{ 
+        display: 'flex', 
+        justifyContent: 'center', 
+        alignItems: 'center', 
+        minHeight: '60vh' 
+      }}>
+        <div>Loading...</div>
+      </div>
+    );
+  }
 
   return (
     <div className="account-container">
@@ -837,7 +869,7 @@ const Account = () => {
 
               {/* Addresses List */}
               <div className="addresses-list">
-                {addresses && addresses.length > 0 ? (
+                {Array.isArray(addresses) && addresses.length > 0 ? (
                   addresses.map((address) => (
                     <div key={address.id} className="address-card">
                       <div className="address-header">
@@ -1024,7 +1056,7 @@ const Account = () => {
 
               {/* Payments List */}
               <div className="payments-list">
-                {paymentMethods && paymentMethods.length > 0 ? (
+                {Array.isArray(paymentMethods) && paymentMethods.length > 0 ? (
                   paymentMethods.map((method) => (
                     <div key={method.id} className="payment-card">
                       <div className="card-icon">
@@ -1120,7 +1152,7 @@ const Account = () => {
 
               {/* Orders list */}
               <div className="orders-list">
-                {orders && orders.length > 0 ? (
+                {Array.isArray(orders) && orders.length > 0 ? (
                   orders.map((order) => (
                     <div key={order.id || order.orderId} className="order-card">
                       <h3>Order #{order.id || order.orderId}</h3>
