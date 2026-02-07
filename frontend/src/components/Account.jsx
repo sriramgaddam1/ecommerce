@@ -46,7 +46,6 @@ const Account = () => {
   const [addresses, setAddresses] = useState([]);
   const [showAddressForm, setShowAddressForm] = useState(false);
   const [editingAddressId, setEditingAddressId] = useState(null);
-  const safeArray = (v) => (Array.isArray(v) ? v : []);
   const [addressForm, setAddressForm] = useState({
     label: "",
     fullName: "",
@@ -190,9 +189,7 @@ const Account = () => {
   const fetchAddresses = async (id) => {
     try {
       const response = await API.get(`/auth/user/${id}/addresses`);
-
       const data = Array.isArray(response?.data) ? response.data : [];
-
       setAddresses(data);
     } catch (error) {
       console.error("Error fetching addresses:", error);
@@ -840,8 +837,8 @@ const Account = () => {
 
               {/* Addresses List */}
               <div className="addresses-list">
-                {safeArray(addresses).length > 0 ? (
-                  safeArray(addresses).map((address) => (
+                {addresses && addresses.length > 0 ? (
+                  addresses.map((address) => (
                     <div key={address.id} className="address-card">
                       <div className="address-header">
                         <h3>{address.label}</h3>
@@ -1027,8 +1024,8 @@ const Account = () => {
 
               {/* Payments List */}
               <div className="payments-list">
-                {safeArray(paymentMethods).length > 0 ? (
-                  safeArray(paymentMethods).map((method) => (
+                {paymentMethods && paymentMethods.length > 0 ? (
+                  paymentMethods.map((method) => (
                     <div key={method.id} className="payment-card">
                       <div className="card-icon">
                         <i className="bi bi-credit-card"></i>
@@ -1104,7 +1101,7 @@ const Account = () => {
 
                     <h4>Items</h4>
                     <div className="order-items-list">
-                      {safeArray(selectedOrder?.items).map((it) => (
+                      {selectedOrder?.items && Array.isArray(selectedOrder.items) && selectedOrder.items.map((it) => (
                         <div key={it.id} className="order-item">
                           <div>
                             {it.name} × {it.quantity}
@@ -1123,8 +1120,8 @@ const Account = () => {
 
               {/* Orders list */}
               <div className="orders-list">
-                {safeArray(orders).length > 0 ? (
-                  safeArray(orders).map((order) => (
+                {orders && orders.length > 0 ? (
+                  orders.map((order) => (
                     <div key={order.id || order.orderId} className="order-card">
                       <h3>Order #{order.id || order.orderId}</h3>
                       <p>Status: {order.status}</p>
