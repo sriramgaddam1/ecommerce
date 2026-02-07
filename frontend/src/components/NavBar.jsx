@@ -10,6 +10,19 @@ import "./Navbar.css";
 const BASE_URL = import.meta.env.VITE_API_URL;
 
 /* =======================
+   CATEGORIES - MOVED OUTSIDE COMPONENT
+======================= */
+const CATEGORIES = [
+  "Laptop",
+  "Headphone",
+  "Mobile",
+  "Electronics",
+  "Toys",
+  "Fashion",
+  "Accessories",
+];
+
+/* =======================
    UTIL: AVATAR GRADIENT
 ======================= */
 const generateGradientFromString = (str = "") => {
@@ -128,6 +141,7 @@ const Navbar = ({ onSelectCategory }) => {
         setSearchResults(response.data || []);
       } catch (err) {
         console.error("Search error:", err);
+        setSearchResults([]);
       }
     } else {
       setShowSearchResults(false);
@@ -159,16 +173,6 @@ const Navbar = ({ onSelectCategory }) => {
     navigate("/");
   };
 
-  const categories = [
-    "Laptop",
-    "Headphone",
-    "Mobile",
-    "Electronics",
-    "Toys",
-    "Fashion",
-    "Accessories",
-  ];
-
   const profilePhotoUrl = userId
     ? `${BASE_URL}/api/auth/user/${userId}/photo`
     : null;
@@ -195,7 +199,7 @@ const Navbar = ({ onSelectCategory }) => {
                   Categories
                 </a>
                 <ul className="dropdown-menu">
-                  {categories.map((category) => (
+                  {CATEGORIES.map((category) => (
                     <li key={category}>
                       <button
                         className="dropdown-item"
