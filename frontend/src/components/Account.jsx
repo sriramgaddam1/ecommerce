@@ -73,6 +73,11 @@ const Account = () => {
     isDefault: false,
   });
 
+  // Debug: Log state on every render
+  console.log("Render - addresses:", addresses, "type:", typeof addresses, "isArray:", Array.isArray(addresses));
+  console.log("Render - orders:", orders, "type:", typeof orders, "isArray:", Array.isArray(orders));
+  console.log("Render - paymentMethods:", paymentMethods, "type:", typeof paymentMethods, "isArray:", Array.isArray(paymentMethods));
+
   useEffect(() => {
     const token = localStorage.getItem("token");
     const id = localStorage.getItem("userId");
@@ -1163,14 +1168,18 @@ const Account = () => {
 
                     <h4>Items</h4>
                     <div className="order-items-list">
-                      {selectedOrder?.items && Array.isArray(selectedOrder.items) && selectedOrder.items.map((it) => (
-                        <div key={it.id} className="order-item">
-                          <div>
-                            {it.name} × {it.quantity}
+                      {selectedOrder?.items && Array.isArray(selectedOrder.items) ? (
+                        selectedOrder.items.map((it) => (
+                          <div key={it.id} className="order-item">
+                            <div>
+                              {it.name} × {it.quantity}
+                            </div>
+                            <div>₹{it.price}</div>
                           </div>
-                          <div>₹{it.price}</div>
-                        </div>
-                      ))}
+                        ))
+                      ) : (
+                        <p>No items found</p>
+                      )}
                     </div>
 
                     <div className="modal-actions">
