@@ -546,305 +546,346 @@ const handleDefaultPayment = async (paymentId) => {
 
 
   return (
-    <div className="account-container">
-      <div className="account-header">
-        <h1>My Account</h1>
-        <p className="greeting">Welcome back, {username}!</p>
-      </div>
+   <div className="account-container">
+  <div className="account-header">
+    <h1>My Account</h1>
+    <p className="greeting">Welcome back, {username}!</p>
+  </div>
 
-      <div className="account-wrapper">
-        {/* Sidebar */}
-        <div className="account-sidebar">
-          <div className="sidebar-user-card">
-          <div className="user-avatar">
-  {profilePhoto ? (
-    <img src={profilePhoto} alt="Profile" />
-  ) : (
-    <div
-      className="avatar-initial"
-      style={{
-        background: generateGradientFromString(username)
-      }}
-    >
-      {username?.charAt(0)?.toUpperCase() || "?"}
-    </div>
-  )}
-</div>
-
-
-            <h3>{username}</h3>
-            <p>{email}</p>
-          </div>
-
-          <nav className="sidebar-menu">
-            <button
-              className={`menu-item ${activeTab === "profile" ? "active" : ""}`}
-              onClick={() => setActiveTab("profile")}
+  <div className="account-wrapper">
+    {/* Sidebar */}
+    <div className="account-sidebar">
+      <div className="sidebar-user-card">
+        <div className="user-avatar">
+          {profilePhoto ? (
+            <img src={profilePhoto} alt="Profile" />
+          ) : (
+            <div
+              className="avatar-initial"
+              style={{
+                background: generateGradientFromString(username),
+              }}
             >
-              <i className="bi bi-person"></i> My Profile
-            </button>
-            <button
-              className={`menu-item ${activeTab === "addresses" ? "active" : ""}`}
-              onClick={() => setActiveTab("addresses")}
-            >
-              <i className="bi bi-geo-alt"></i> Addresses
-            </button>
-            <button
-              className={`menu-item ${activeTab === "payments" ? "active" : ""}`}
-              onClick={() => setActiveTab("payments")}
-            >
-              <i className="bi bi-credit-card"></i> Payment Methods
-            </button>
-            <button
-              className={`menu-item ${activeTab === "orders" ? "active" : ""}`}
-              onClick={() => setActiveTab("orders")}
-            >
-              <i className="bi bi-box"></i> My Orders
-            </button>
-            <button
-              className={`menu-item ${activeTab === "support" ? "active" : ""}`}
-              onClick={() => setActiveTab("support")}
-            >
-              <i className="bi bi-headset"></i> Customer Support
-            </button>
-            <button className="menu-item logout-menu" onClick={handleLogout}>
-              <i className="bi bi-box-arrow-right"></i> Logout
-            </button>
-          </nav>
-        </div>
-
-        {/* Content Area */}
-        <div className="account-content">
-          {/* Profile Tab */}
-          {activeTab === "profile" && (
-            <div className="tab-content">
-              <h2>Profile Information</h2>
-              <div className="profile-form">
-                {/* Profile Photo Section */}
-                <div className="photo-upload-section">
-                  <div className="photo-preview-container">
-                 {photoPreview ? (
-                            <img
-                            src={photoPreview}
-                            alt="Preview"
-                            className="photo-preview"
-                            />
-                            ) : profilePhoto ? (
-                            <img
-                            src={profilePhoto}
-                            alt="Current"
-                            className="photo-preview"
-                            onError={(e) => {
-                              e.currentTarget.onerror = null;
-                              e.currentTarget.src = "";
-                              setProfilePhoto(null);
-                            }}
-                            />
-                            ) : (
-                            <div className="photo-placeholder">
-                            <i className="bi bi-image"></i>
-                            <p>No photo uploaded</p>
-                            </div>
-                            )}
-
-                  </div>
-                  <div className="photo-upload-controls">
-                    <label htmlFor="photoInput" className="upload-btn">
-                      <i className="bi bi-upload"></i> Upload Photo
-                    </label>
-                    <input
-                      id="photoInput"
-                      type="file"
-                      accept="image/*"
-                      style={{ display: "none" }}
-                      onChange={handlePhotoSelect}
-                    />
-                    <p className="upload-info">JPG, PNG up to 5MB</p>
-                  </div>
-                </div>
-
-                <div className="form-group">
-                  <label>Username</label>
-                  <input 
-                    type="text" 
-                    value={newUsername} 
-                    onChange={(e) => setNewUsername(e.target.value)}
-                  />
-                </div>
-                <div className="form-group">
-                  <label>Email</label>
-                  <input type="email" value={email} disabled />
-                </div>
-                <div className="form-group">
-                  <label>Full Name</label>
-                  <input 
-                    type="text" 
-                    value={fullName} 
-                    onChange={(e) => setFullName(e.target.value)}
-                    placeholder="Enter your full name"
-                  />
-                </div>
-                <div className="form-group">
-                  <label>Phone Number</label>
-                  <input 
-                    type="tel" 
-                    value={phoneNumber}
-                    onChange={(e) => setPhoneNumber(e.target.value)}
-                    placeholder="Enter your phone number" 
-                  />
-                </div>
-                <div className="form-group">
-                  <label>Date of Birth</label>
-                  <input 
-                    type="date" 
-                    value={dateOfBirth}
-                    onChange={(e) => setDateOfBirth(e.target.value)}
-                  />
-                </div>
-                <button 
-                  className="save-btn" 
-                  onClick={handleUpdateProfile}
-                  disabled={loading}
-                >
-                  <i className="bi bi-check2"></i> {loading ? "Updating..." : "Update Profile"}
-                </button>
-              </div>
+              {username?.charAt(0)?.toUpperCase() || "?"}
             </div>
           )}
+        </div>
 
-          {/* Addresses Tab */}
-          {activeTab === "addresses" && (
-            <div className="tab-content">
-              <div className="tab-header">
-                <h2>Saved Addresses</h2>
-                <button className="add-btn" onClick={() => setShowAddressForm(true)}>
-                  <i className="bi bi-plus-circle"></i> Add New Address
-                </button>
+        <h3>{username}</h3>
+        <p>{email}</p>
+      </div>
+
+      <nav className="sidebar-menu">
+        <button
+          className={`menu-item ${activeTab === "profile" ? "active" : ""}`}
+          onClick={() => setActiveTab("profile")}
+        >
+          <i className="bi bi-person"></i> My Profile
+        </button>
+
+        <button
+          className={`menu-item ${activeTab === "addresses" ? "active" : ""}`}
+          onClick={() => setActiveTab("addresses")}
+        >
+          <i className="bi bi-geo-alt"></i> Addresses
+        </button>
+
+        <button
+          className={`menu-item ${activeTab === "payments" ? "active" : ""}`}
+          onClick={() => setActiveTab("payments")}
+        >
+          <i className="bi bi-credit-card"></i> Payment Methods
+        </button>
+
+        <button
+          className={`menu-item ${activeTab === "orders" ? "active" : ""}`}
+          onClick={() => setActiveTab("orders")}
+        >
+          <i className="bi bi-box"></i> My Orders
+        </button>
+
+        <button
+          className={`menu-item ${activeTab === "support" ? "active" : ""}`}
+          onClick={() => setActiveTab("support")}
+        >
+          <i className="bi bi-headset"></i> Customer Support
+        </button>
+
+        <button className="menu-item logout-menu" onClick={handleLogout}>
+          <i className="bi bi-box-arrow-right"></i> Logout
+        </button>
+      </nav>
+    </div>
+
+    {/* Content Area */}
+    <div className="account-content">
+      {/* Profile Tab */}
+      {activeTab === "profile" && (
+        <div className="tab-content">
+          <h2>Profile Information</h2>
+
+          <div className="profile-form">
+            {/* Profile Photo Section */}
+            <div className="photo-upload-section">
+              <div className="photo-preview-container">
+                {photoPreview ? (
+                  <img
+                    src={photoPreview}
+                    alt="Preview"
+                    className="photo-preview"
+                  />
+                ) : profilePhoto ? (
+                  <img
+                    src={profilePhoto}
+                    alt="Current"
+                    className="photo-preview"
+                    onError={(e) => {
+                      e.currentTarget.onerror = null;
+                      e.currentTarget.src = "";
+                      setProfilePhoto(null);
+                    }}
+                  />
+                ) : (
+                  <div className="photo-placeholder">
+                    <i className="bi bi-image"></i>
+                    <p>No photo uploaded</p>
+                  </div>
+                )}
               </div>
+
+              <div className="photo-upload-controls">
+                <label htmlFor="photoInput" className="upload-btn">
+                  <i className="bi bi-upload"></i> Upload Photo
+                </label>
+
+                <input
+                  id="photoInput"
+                  type="file"
+                  accept="image/*"
+                  style={{ display: "none" }}
+                  onChange={handlePhotoSelect}
+                />
+
+                <p className="upload-info">JPG, PNG up to 5MB</p>
+              </div>
+            </div>
+
+            <div className="form-group">
+              <label>Username</label>
+              <input
+                type="text"
+                value={newUsername}
+                onChange={(e) => setNewUsername(e.target.value)}
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Email</label>
+              <input type="email" value={email} disabled />
+            </div>
+
+            <div className="form-group">
+              <label>Full Name</label>
+              <input
+                type="text"
+                value={fullName}
+                onChange={(e) => setFullName(e.target.value)}
+                placeholder="Enter your full name"
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Phone Number</label>
+              <input
+                type="tel"
+                value={phoneNumber}
+                onChange={(e) => setPhoneNumber(e.target.value)}
+                placeholder="Enter your phone number"
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Date of Birth</label>
+              <input
+                type="date"
+                value={dateOfBirth}
+                onChange={(e) => setDateOfBirth(e.target.value)}
+              />
+            </div>
+
+            <button
+              className="save-btn"
+              onClick={handleUpdateProfile}
+              disabled={loading}
+            >
+              <i className="bi bi-check2"></i>{" "}
+              {loading ? "Updating..." : "Update Profile"}
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Addresses Tab */}
+      {activeTab === "addresses" && (
+        <div className="tab-content">
+          <div className="tab-header">
+            <h2>Saved Addresses</h2>
+            <button
+              className="add-btn"
+              onClick={() => setShowAddressForm(true)}
+            >
+              <i className="bi bi-plus-circle"></i> Add New Address
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
+  </div>
+</div>
+
               
+{/* Address Form */}
+{showAddressForm && (
+  <div className="form-container">
+    <h3>{editingAddressId ? "Edit Address" : "Add New Address"}</h3>
 
-              {/* Address Form */}
-              {showAddressForm && (
-                <div className="form-container">
-                  <h3>{editingAddressId ? "Edit Address" : "Add New Address"}</h3>
-                  <div className="form-grid">
-                    <div className="form-group">
-                      <label>Address Label (Home, Office, etc.)</label>
-                      <input
-                        type="text"
-                        name="label"
-                        value={addressForm.label}
-                        onChange={handleAddressChange}
-                        placeholder="e.g., Home"
-                      />
-                    </div>
-                    <div className="form-group">
-                      <label>Full Name</label>
-                      <input
-                        type="text"
-                        name="fullName"
-                        value={addressForm.fullName}
-                        onChange={handleAddressChange}
-                        placeholder="Your name"
-                      />
-                    </div>
-                    <div className="form-group">
-                      <label>Phone Number</label>
-                      <input
-                        type="tel"
-                        name="phoneNumber"
-                        value={addressForm.phoneNumber}
-                        onChange={handleAddressChange}
-                        placeholder="(555) 123-4567"
-                      />
-                    </div>
-                    <div className="form-group full-width">
-                      <label>Street Address</label>
-                      <input
-                        type="text"
-                        name="street"
-                        value={addressForm.street}
-                        onChange={handleAddressChange}
-                        placeholder="123 Main Street"
-                      />
-                    </div>
-                    <div className="form-group">
-                      <label>City</label>
-                      <input
-                        type="text"
-                        name="city"
-                        value={addressForm.city}
-                        onChange={handleAddressChange}
-                        placeholder="New York"
-                      />
-                    </div>
-                    <div className="form-group">
-                      <label>State/Province</label>
-                      <input
-                        type="text"
-                        name="state"
-                        value={addressForm.state}
-                        onChange={handleAddressChange}
-                        placeholder="NY"
-                      />
-                    </div>
-                    <div className="form-group">
-                      <label>Zip/Postal Code</label>
-                      <input
-                        type="text"
-                        name="zipCode"
-                        value={addressForm.zipCode}
-                        onChange={handleAddressChange}
-                        placeholder="10001"
-                      />
-                    </div>
-                    <div className="form-group">
-                      <label>Country</label>
-                      <input
-                        type="text"
-                        name="country"
-                        value={addressForm.country}
-                        onChange={handleAddressChange}
-                        placeholder="United States"
-                      />
-                    </div>
-                    <div className="form-group checkbox">
-                      <input
-                        type="checkbox"
-                        name="isDefault"
-                        checked={addressForm.isDefault}
-                        onChange={handleAddressChange}
-                        id="defaultAddress"
-                      />
-                      <label htmlFor="defaultAddress">Set as default address</label>
-                    </div>
-                  </div>
-                  <div className="form-actions">
-                    <button className="save-btn" onClick={handleSaveAddress} disabled={loading}>
-                      <i className="bi bi-check2"></i> {loading ? "Saving..." : "Save Address"}
-                    </button>
-                    <button className="cancel-btn" onClick={() => {
-                      setShowAddressForm(false);
-                      setEditingAddressId(null);
-                      setAddressForm({
-                        label: "",
-                        fullName: "",
-                        phoneNumber: "",
-                        street: "",
-                        city: "",
-                        state: "",
-                        zipCode: "",
-                        country: "",
-                        isDefault: false,
-                      });
-                    }}>
-                      Cancel
-                    </button>
-                  </div>
-                </div>
-              )}
+    <div className="form-grid">
+      <div className="form-group">
+        <label>Address Label (Home, Office, etc.)</label>
+        <input
+          type="text"
+          name="label"
+          value={addressForm.label}
+          onChange={handleAddressChange}
+          placeholder="e.g., Home"
+        />
+      </div>
 
-  <div className="addresses-list">
+      <div className="form-group">
+        <label>Full Name</label>
+        <input
+          type="text"
+          name="fullName"
+          value={addressForm.fullName}
+          onChange={handleAddressChange}
+          placeholder="Your name"
+        />
+      </div>
+
+      <div className="form-group">
+        <label>Phone Number</label>
+        <input
+          type="tel"
+          name="phoneNumber"
+          value={addressForm.phoneNumber}
+          onChange={handleAddressChange}
+          placeholder="(555) 123-4567"
+        />
+      </div>
+
+      <div className="form-group full-width">
+        <label>Street Address</label>
+        <input
+          type="text"
+          name="street"
+          value={addressForm.street}
+          onChange={handleAddressChange}
+          placeholder="123 Main Street"
+        />
+      </div>
+
+      <div className="form-group">
+        <label>City</label>
+        <input
+          type="text"
+          name="city"
+          value={addressForm.city}
+          onChange={handleAddressChange}
+          placeholder="New York"
+        />
+      </div>
+
+      <div className="form-group">
+        <label>State/Province</label>
+        <input
+          type="text"
+          name="state"
+          value={addressForm.state}
+          onChange={handleAddressChange}
+          placeholder="NY"
+        />
+      </div>
+
+      <div className="form-group">
+        <label>Zip/Postal Code</label>
+        <input
+          type="text"
+          name="zipCode"
+          value={addressForm.zipCode}
+          onChange={handleAddressChange}
+          placeholder="10001"
+        />
+      </div>
+
+      <div className="form-group">
+        <label>Country</label>
+        <input
+          type="text"
+          name="country"
+          value={addressForm.country}
+          onChange={handleAddressChange}
+          placeholder="United States"
+        />
+      </div>
+
+      <div className="form-group checkbox">
+        <input
+          type="checkbox"
+          name="isDefault"
+          checked={addressForm.isDefault}
+          onChange={handleAddressChange}
+          id="defaultAddress"
+        />
+        <label htmlFor="defaultAddress">Set as default address</label>
+      </div>
+    </div>
+
+    <div className="form-actions">
+      <button
+        className="save-btn"
+        onClick={handleSaveAddress}
+        disabled={loading}
+      >
+        <i className="bi bi-check2"></i>{" "}
+        {loading ? "Saving..." : "Save Address"}
+      </button>
+
+      <button
+        className="cancel-btn"
+        onClick={() => {
+          setShowAddressForm(false);
+          setEditingAddressId(null);
+          setAddressForm({
+            label: "",
+            fullName: "",
+            phoneNumber: "",
+            street: "",
+            city: "",
+            state: "",
+            zipCode: "",
+            country: "",
+            isDefault: false,
+          });
+        }}
+      >
+        Cancel
+      </button>
+    </div>
+  </div>
+)}
+
+{/* Addresses List */}
+<div className="addresses-list">
   {safeArray(addresses).length > 0 ? (
     safeArray(addresses).map((address) => (
       <div key={address.id} className="address-card">
@@ -855,18 +896,25 @@ const handleDefaultPayment = async (paymentId) => {
           )}
         </div>
 
-
-        <p className="address-text"><strong>{address.fullName}</strong></p>
+        <p className="address-text">
+          <strong>{address.fullName}</strong>
+        </p>
         <p className="address-text">{address.street}</p>
         <p className="address-text">
           {address.city}, {address.state} {address.zipCode}
         </p>
         <p className="address-text">{address.country}</p>
-        <p className="address-text">Phone: {address.phoneNumber}</p>
+        <p className="address-text">
+          Phone: {address.phoneNumber}
+        </p>
 
         <div className="address-actions">
-          <button onClick={() => handleEditAddress(address)}>Edit</button>
-          <button onClick={() => handleDeleteAddress(address.id)}>Delete</button>
+          <button onClick={() => handleEditAddress(address)}>
+            Edit
+          </button>
+          <button onClick={() => handleDeleteAddress(address.id)}>
+            Delete
+          </button>
           {!address.isDefault && (
             <button onClick={() => handleDefaultAddress(address.id)}>
               Set Default
@@ -881,202 +929,241 @@ const handleDefaultPayment = async (paymentId) => {
     </div>
   )}
 </div>
-  )}
 
 
 
-          {/* Payment Methods Tab */}
-          {activeTab === "payments" && (
-            <div className="tab-content">
-              <div className="tab-header">
-                <h2>Saved Payment Methods</h2>
-                <button className="add-btn" onClick={() => setShowPaymentForm(!showPaymentForm)}>
-                  <i className="bi bi-plus-circle"></i> Add Payment Method
-                </button>
-              </div>
+        {/* Payment Methods Tab */}
+{activeTab === "payments" && (
+  <div className="tab-content">
+    <div className="tab-header">
+      <h2>Saved Payment Methods</h2>
+      <button
+        className="add-btn"
+        onClick={() => setShowPaymentForm(!showPaymentForm)}
+      >
+        <i className="bi bi-plus-circle"></i> Add Payment Method
+      </button>
+    </div>
 
-              {/* Payment Form */}
-              {showPaymentForm && (
-                <div className="form-container">
-                  <h3>Add New Payment Method</h3>
-                  <div className="form-grid">
-                    <div className="form-group">
-                      <label>Cardholder Name</label>
-                      <input
-                        type="text"
-                        name="cardholderName"
-                        value={paymentForm.cardholderName}
-                        onChange={handlePaymentChange}
-                        placeholder="John Doe"
-                      />
-                    </div>
-                    <div className="form-group">
-                      <label>Card Type</label>
-                      <select
-                        name="cardType"
-                        value={paymentForm.cardType}
-                        onChange={handlePaymentChange}
-                      >
-                        <option>Visa</option>
-                        <option>Mastercard</option>
-                        <option>American Express</option>
-                        <option>Discover</option>
-                      </select>
-                    </div>
-                    <div className="form-group full-width">
-                      <label>Card Number</label>
-                      <input
-                        type="text"
-                        name="cardNumber"
-                        value={paymentForm.cardNumber}
-                        onChange={handlePaymentChange}
-                        placeholder="1234 5678 9012 3456"
-                        maxLength="19"
-                      />
-                    </div>
-                    <div className="form-group">
-                      <label>Expiry Month</label>
-                      <input
-                        type="text"
-                        name="expiryMonth"
-                        value={paymentForm.expiryMonth}
-                        onChange={handlePaymentChange}
-                        placeholder="MM"
-                        maxLength="2"
-                      />
-                    </div>
-                    <div className="form-group">
-                      <label>Expiry Year</label>
-                      <input
-                        type="text"
-                        name="expiryYear"
-                        value={paymentForm.expiryYear}
-                        onChange={handlePaymentChange}
-                        placeholder="YY"
-                        maxLength="2"
-                      />
-                    </div>
-                    <div className="form-group">
-                      <label>CVV</label>
-                      <input
-                        type="password"
-                        name="cvv"
-                        value={paymentForm.cvv}
-                        onChange={handlePaymentChange}
-                        placeholder="123"
-                        maxLength="4"
-                      />
-                    </div>
-                    <div className="form-group checkbox">
-                      <input
-                        type="checkbox"
-                        name="isDefault"
-                        checked={paymentForm.isDefault}
-                        onChange={handlePaymentChange}
-                        id="defaultPayment"
-                      />
-                      <label htmlFor="defaultPayment">Set as default payment method</label>
-                    </div>
-                  </div>
-                  <div className="form-actions">
-                    <button className="save-btn" onClick={handleSavePayment} disabled={loading}>
-                      <i className="bi bi-check2"></i> {loading ? "Saving..." : "Save Payment"}
-                    </button>
-                    <button className="cancel-btn" onClick={() => {
-                      setShowPaymentForm(false);
-                      setPaymentForm({
-                        cardholderName: "",
-                        cardNumber: "",
-                        cardType: "Visa",
-                        expiryMonth: "",
-                        expiryYear: "",
-                        cvv: "",
-                        isDefault: false,
-                      });
-                    }}>
-                      Cancel
-                    </button>
-                  </div>
-                </div>
-              )}
+    {/* Payment Form */}
+    {showPaymentForm && (
+      <div className="form-container">
+        <h3>Add New Payment Method</h3>
 
-             <div className="payments-list">
-  {safeArray(paymentMethods).length > 0 ? (
-    safeArray(paymentMethods).map((method) => (
-      <div key={method.id} className="payment-card">
-        <div className="card-icon">
-          <i className="bi bi-credit-card"></i>
-        </div>
+        <div className="form-grid">
+          <div className="form-group">
+            <label>Cardholder Name</label>
+            <input
+              type="text"
+              name="cardholderName"
+              value={paymentForm.cardholderName}
+              onChange={handlePaymentChange}
+              placeholder="John Doe"
+            />
+          </div>
 
-        <div className="card-details">
-          <h3>{method.cardType} Card</h3>
-          <p>Card ending in {method.cardNumber}</p>
-          <p className="expiry">
-            Expires: {method.expiryMonth}/{method.expiryYear}
-          </p>
-          <p className="cardholder">{method.cardholderName}</p>
-        </div>
-
-        <div className="card-actions">
-          {!method.isDefault && (
-            <button
-              className="default-btn"
-              onClick={() => handleDefaultPayment(method.id)}
+          <div className="form-group">
+            <label>Card Type</label>
+            <select
+              name="cardType"
+              value={paymentForm.cardType}
+              onChange={handlePaymentChange}
             >
-              Set as Default
-            </button>
-          )}
+              <option>Visa</option>
+              <option>Mastercard</option>
+              <option>American Express</option>
+              <option>Discover</option>
+            </select>
+          </div>
 
-          {method.isDefault && (
-            <span className="default-badge">Default</span>
-          )}
+          <div className="form-group full-width">
+            <label>Card Number</label>
+            <input
+              type="text"
+              name="cardNumber"
+              value={paymentForm.cardNumber}
+              onChange={handlePaymentChange}
+              placeholder="1234 5678 9012 3456"
+              maxLength={19}
+            />
+          </div>
+
+          <div className="form-group">
+            <label>Expiry Month</label>
+            <input
+              type="text"
+              name="expiryMonth"
+              value={paymentForm.expiryMonth}
+              onChange={handlePaymentChange}
+              placeholder="MM"
+              maxLength={2}
+            />
+          </div>
+
+          <div className="form-group">
+            <label>Expiry Year</label>
+            <input
+              type="text"
+              name="expiryYear"
+              value={paymentForm.expiryYear}
+              onChange={handlePaymentChange}
+              placeholder="YY"
+              maxLength={2}
+            />
+          </div>
+
+          <div className="form-group">
+            <label>CVV</label>
+            <input
+              type="password"
+              name="cvv"
+              value={paymentForm.cvv}
+              onChange={handlePaymentChange}
+              placeholder="123"
+              maxLength={4}
+            />
+          </div>
+
+          <div className="form-group checkbox">
+            <input
+              type="checkbox"
+              name="isDefault"
+              checked={paymentForm.isDefault}
+              onChange={handlePaymentChange}
+              id="defaultPayment"
+            />
+            <label htmlFor="defaultPayment">
+              Set as default payment method
+            </label>
+          </div>
+        </div>
+
+        <div className="form-actions">
+          <button
+            className="save-btn"
+            onClick={handleSavePayment}
+            disabled={loading}
+          >
+            <i className="bi bi-check2"></i>{" "}
+            {loading ? "Saving..." : "Save Payment"}
+          </button>
 
           <button
-            className="delete-link"
-            onClick={() => handleDeletePayment(method.id)}
+            className="cancel-btn"
+            onClick={() => {
+              setShowPaymentForm(false);
+              setPaymentForm({
+                cardholderName: "",
+                cardNumber: "",
+                cardType: "Visa",
+                expiryMonth: "",
+                expiryYear: "",
+                cvv: "",
+                isDefault: false,
+              });
+            }}
           >
-            Delete
+            Cancel
           </button>
         </div>
       </div>
-    ))
-  ) : (
-    <div className="empty-message">
-      <i className="bi bi-credit-card"></i>
-      <p>No payment methods saved. Add one for faster checkout!</p>
+    )}
+
+    {/* Payments List */}
+    <div className="payments-list">
+      {safeArray(paymentMethods).length > 0 ? (
+        safeArray(paymentMethods).map((method) => (
+          <div key={method.id} className="payment-card">
+            <div className="card-icon">
+              <i className="bi bi-credit-card"></i>
+            </div>
+
+            <div className="card-details">
+              <h3>{method.cardType} Card</h3>
+              <p>Card ending in {method.cardNumber}</p>
+              <p className="expiry">
+                Expires: {method.expiryMonth}/{method.expiryYear}
+              </p>
+              <p className="cardholder">
+                {method.cardholderName}
+              </p>
+            </div>
+
+            <div className="card-actions">
+              {!method.isDefault && (
+                <button
+                  className="default-btn"
+                  onClick={() => handleDefaultPayment(method.id)}
+                >
+                  Set as Default
+                </button>
+              )}
+
+              {method.isDefault && (
+                <span className="default-badge">Default</span>
+              )}
+
+              <button
+                className="delete-link"
+                onClick={() => handleDeletePayment(method.id)}
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        ))
+      ) : (
+        <div className="empty-message">
+          <i className="bi bi-credit-card"></i>
+          <p>No payment methods saved. Add one for faster checkout!</p>
+        </div>
+      )}
     </div>
-  )}
-</div>
-</div> 
+  </div>
 )}
 
 
           {/* Orders Tab */}
-       {activeTab === "orders" && (
+{activeTab === "orders" && (
   <div className="tab-content">
     <h2>My Orders</h2>
 
     {/* Orders list */}
     <div className="orders-list">
-
+      {/* Order Details Modal */}
       {showOrderModal && selectedOrder && (
         <div className="order-modal">
           <div className="modal-content">
-            <button className="modal-close" onClick={closeOrderModal}>×</button>
+            <button
+              className="modal-close"
+              onClick={closeOrderModal}
+            >
+              ×
+            </button>
 
             <h3>Order Details</h3>
-            <p><strong>Order:</strong> {selectedOrder.orderNumber || `#${selectedOrder.id}`}</p>
-            <p><strong>Status:</strong> {selectedOrder.status}</p>
-            <p><strong>Placed:</strong> {new Date(selectedOrder.createdAt).toLocaleString()}</p>
+            <p>
+              <strong>Order:</strong>{" "}
+              {selectedOrder.orderNumber || `#${selectedOrder.id}`}
+            </p>
+            <p>
+              <strong>Status:</strong> {selectedOrder.status}
+            </p>
+            <p>
+              <strong>Placed:</strong>{" "}
+              {new Date(selectedOrder.createdAt).toLocaleString()}
+            </p>
 
             <h4>Items</h4>
             <div className="order-items-list">
-  {safeArray(selectedOrder?.items).map(it => (
-    <div key={it.id} className="order-item">
-      <div>{it.name} × {it.quantity}</div>
-      <div>₹{it.price}</div>
-    </div>
-                ))}
+              {safeArray(selectedOrder?.items).map((it) => (
+                <div key={it.id} className="order-item">
+                  <div>
+                    {it.name} × {it.quantity}
+                  </div>
+                  <div>₹{it.price}</div>
+                </div>
+              ))}
             </div>
 
             <div className="modal-actions">
@@ -1086,100 +1173,101 @@ const handleDefaultPayment = async (paymentId) => {
         </div>
       )}
 
+      {/* Orders Cards */}
       {safeArray(orders).length > 0 ? (
-    safeArray(orders).map(order => (
-      <div
-        key={order.id || order.orderId}
-        className="order-card"
-      >
-        <h3>Order #{order.id || order.orderId}</h3>
-        <p>Status: {order.status}</p>
-      </div>
+        safeArray(orders).map((order) => (
+          <div
+            key={order.id || order.orderId}
+            className="order-card"
+          >
+            <h3>Order #{order.id || order.orderId}</h3>
+            <p>Status: {order.status}</p>
+          </div>
         ))
       ) : (
         <div className="empty-message">
           <p>No orders yet.</p>
         </div>
       )}
-
     </div>
-
   </div>
 )}
 
 
 
 
-          {/* Support Tab */}
-          {activeTab === "support" && (
-            <div className="tab-content">
-              <h2>Customer Support</h2>
-              <div className="support-container">
-                <div className="support-card">
-                  <div className="support-icon">
-                    <i className="bi bi-chat-dots"></i>
-                  </div>
-                  <h3>Live Chat</h3>
-                  <p>Chat with our support team in real-time</p>
-                  <button className="support-btn">Start Chat</button>
-                </div>
+{/* Support Tab */}
+{activeTab === "support" && (
+  <div className="tab-content">
+    <h2>Customer Support</h2>
 
-                <div className="support-card">
-                  <div className="support-icon">
-                    <i className="bi bi-envelope"></i>
-                  </div>
-                  <h3>Email Support</h3>
-                  <p>Send us an email and we'll respond within 24 hours</p>
-                  <button className="support-btn">Send Email</button>
-                </div>
-
-                <div className="support-card">
-                  <div className="support-icon">
-                    <i className="bi bi-telephone"></i>
-                  </div>
-                  <h3>Phone Support</h3>
-                  <p>Call us at 1-800-SHOP-NOW</p>
-                  <button className="support-btn">Call Us</button>
-                </div>
-
-                <div className="support-card">
-                  <div className="support-icon">
-                    <i className="bi bi-question-circle"></i>
-                  </div>
-                  <h3>FAQ</h3>
-                  <p>Find answers to common questions</p>
-                  <button className="support-btn">View FAQ</button>
-                </div>
-              </div>
-
-              <div className="faq-section">
-                <h3>Frequently Asked Questions</h3>
-                <div className="faq-item">
-                  <h4>How do I track my order?</h4>
-                  <p>
-                    You can track your order from the "My Orders" section. Click
-                    on the order and select "Track Order".
-                  </p>
-                </div>
-                <div className="faq-item">
-                  <h4>What is your return policy?</h4>
-                  <p>
-                    We accept returns within 30 days of purchase. Items must be
-                    in original condition.
-                  </p>
-                </div>
-                <div className="faq-item">
-                  <h4>How long does delivery take?</h4>
-                  <p>
-                    Standard delivery takes 3-5 business days. Express delivery
-                    is available for 1-2 business days.
-                  </p>
-                </div>
-              </div>
-            </div>
-          )}
+    <div className="support-container">
+      <div className="support-card">
+        <div className="support-icon">
+          <i className="bi bi-chat-dots"></i>
         </div>
-  );
-};
+        <h3>Live Chat</h3>
+        <p>Chat with our support team in real-time</p>
+        <button className="support-btn">Start Chat</button>
+      </div>
+
+      <div className="support-card">
+        <div className="support-icon">
+          <i className="bi bi-envelope"></i>
+        </div>
+        <h3>Email Support</h3>
+        <p>Send us an email and we'll respond within 24 hours</p>
+        <button className="support-btn">Send Email</button>
+      </div>
+
+      <div className="support-card">
+        <div className="support-icon">
+          <i className="bi bi-telephone"></i>
+        </div>
+        <h3>Phone Support</h3>
+        <p>Call us at 1-800-SHOP-NOW</p>
+        <button className="support-btn">Call Us</button>
+      </div>
+
+      <div className="support-card">
+        <div className="support-icon">
+          <i className="bi bi-question-circle"></i>
+        </div>
+        <h3>FAQ</h3>
+        <p>Find answers to common questions</p>
+        <button className="support-btn">View FAQ</button>
+      </div>
+    </div>
+
+    <div className="faq-section">
+      <h3>Frequently Asked Questions</h3>
+
+      <div className="faq-item">
+        <h4>How do I track my order?</h4>
+        <p>
+          You can track your order from the "My Orders" section.
+          Click on the order and select "Track Order".
+        </p>
+      </div>
+
+      <div className="faq-item">
+        <h4>What is your return policy?</h4>
+        <p>
+          We accept returns within 30 days of purchase.
+          Items must be in original condition.
+        </p>
+      </div>
+
+      <div className="faq-item">
+        <h4>How long does delivery take?</h4>
+        <p>
+          Standard delivery takes 3–5 business days.
+          Express delivery is available for 1–2 business days.
+        </p>
+      </div>
+    </div>
+  </div>
+)}
+
 
 export default Account;
