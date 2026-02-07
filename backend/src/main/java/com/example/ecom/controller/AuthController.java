@@ -30,7 +30,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/auth")
-@CrossOrigin(origins = "*", allowedHeaders = "*", allowCredentials = "true") 
+
 public class AuthController {
 
     @Autowired
