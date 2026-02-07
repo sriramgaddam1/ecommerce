@@ -9,6 +9,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
+import java.util.List;
 
 @Configuration
 public class SecurityConfig {
@@ -17,22 +18,16 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
             .csrf(csrf -> csrf.disable())
-            .cors(cors -> cors.configurationSource(corsConfigurationSource()))  // ← FIXED
+            .cors(cors -> cors.configurationSource(corsConfigurationSource()))
             .authorizeHttpRequests(auth -> auth
                 .anyRequest().permitAll()
-            )
-            .exceptionHandling(ex -> ex
-                .authenticationEntryPoint((req, res, e) -> {
-                    res.setStatus(401);
-                    res.setContentType("application/json");
-                    res.getWriter().write("{\"error\":\"Unauthorized\"}");
-                })
             )
             .sessionManagement(session ->
                 session.sessionCreationPolicy(
                     org.springframework.security.config.http.SessionCreationPolicy.STATELESS
                 )
             );
+        
         return http.build();
     }
     
@@ -40,26 +35,31 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         
-        // Allow your frontend URL
-        configuration.setAllowedOrigins(Arrays.asList(
-            "http://localhost:5173",  // Local development
-            "http://localhost:3000",  // Alternative local port
-            "https://ecommerce-frontend-1zdo2t2be-srirams-projects-f1b3c0c8.vercel.app",  // Your Vercel URL
-            "*"  // Allow all origins (remove in production)
-        ));
+        // Allow all origins with pattern matching
+        configuration.setAllowedOriginPatterns(Arrays.asList("*"));
         
         // Allow all HTTP methods
         configuration.setAllowedMethods(Arrays.asList(
-            "GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"
+            "GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"
         ));
         
         // Allow all headers
         configuration.setAllowedHeaders(Arrays.asList("*"));
         
+        // Expose headers that frontend might need
+        configuration.setExposedHeaders(Arrays.asList(
+            "Authorization", 
+            "Content-Type",
+            "X-Total-Count"
+        ));
+        
         // Allow credentials
         configuration.setAllowCredentials(true);
         
-        // Apply CORS configuration to all endpoints
+        // How long the browser should cache preflight requests (in seconds)
+        configuration.setMaxAge(3600L);
+        
+        // Apply to all endpoints
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         
