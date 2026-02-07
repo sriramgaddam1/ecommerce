@@ -45,6 +45,7 @@ const Account = () => {
   const [addresses, setAddresses] = useState([]);
   const [showAddressForm, setShowAddressForm] = useState(false);
   const [editingAddressId, setEditingAddressId] = useState(null);
+  const safeArray = (v) => Array.isArray(v) ? v : [];
   const [addressForm, setAddressForm] = useState({
     label: "",
     fullName: "",
@@ -843,9 +844,9 @@ const handleDefaultPayment = async (paymentId) => {
                 </div>
               )}
 
-              <div className="addresses-list">
-  {Array.isArray(addresses) && addresses.length > 0 ? (
-    addresses.map((address) => (
+  <div className="addresses-list">
+  {safeArray(addresses).length > 0 ? (
+    safeArray(addresses).map((address) => (
       <div key={address.id} className="address-card">
         <div className="address-header">
           <h3>{address.label}</h3>
@@ -853,6 +854,7 @@ const handleDefaultPayment = async (paymentId) => {
             <span className="default-badge">Default</span>
           )}
         </div>
+
 
         <p className="address-text"><strong>{address.fullName}</strong></p>
         <p className="address-text">{address.street}</p>
@@ -999,8 +1001,8 @@ const handleDefaultPayment = async (paymentId) => {
               )}
 
              <div className="payments-list">
-  {Array.isArray(paymentMethods) && paymentMethods.length > 0 ? (
-    paymentMethods.map((method) => (
+  {safeArray(paymentMethods).length > 0 ? (
+    safeArray(paymentMethods).map((method) => (
       <div key={method.id} className="payment-card">
         <div className="card-icon">
           <i className="bi bi-credit-card"></i>
@@ -1069,12 +1071,11 @@ const handleDefaultPayment = async (paymentId) => {
 
             <h4>Items</h4>
             <div className="order-items-list">
-              {Array.isArray(selectedOrder.items) &&
-                selectedOrder.items.map(it => (
-                  <div key={it.id} className="order-item">
-                    <div>{it.name} × {it.quantity}</div>
-                    <div>₹{it.price}</div>
-                  </div>
+  {safeArray(selectedOrder?.items).map(it => (
+    <div key={it.id} className="order-item">
+      <div>{it.name} × {it.quantity}</div>
+      <div>₹{it.price}</div>
+    </div>
                 ))}
             </div>
 
@@ -1085,12 +1086,15 @@ const handleDefaultPayment = async (paymentId) => {
         </div>
       )}
 
-      {Array.isArray(orders) && orders.length > 0 ? (
-        orders.map(order => (
-          <div key={order.id || order.orderId} className="order-card">
-            <h3>Order #{order.id}</h3>
-            <p>Status: {order.status}</p>
-          </div>
+      {safeArray(orders).length > 0 ? (
+    safeArray(orders).map(order => (
+      <div
+        key={order.id || order.orderId}
+        className="order-card"
+      >
+        <h3>Order #{order.id || order.orderId}</h3>
+        <p>Status: {order.status}</p>
+      </div>
         ))
       ) : (
         <div className="empty-message">
@@ -1098,7 +1102,7 @@ const handleDefaultPayment = async (paymentId) => {
         </div>
       )}
 
-    </div> {/* ✅ closes orders-list */}
+    </div>
 
   </div>
 )}
