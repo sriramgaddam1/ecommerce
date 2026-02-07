@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
-@CrossOrigin
+@CrossOrigin(origins = "*", allowedHeaders = "*", allowCredentials = "true") 
 @RestController
 @RequestMapping("/api/auth/user")
 public class OrderController {
