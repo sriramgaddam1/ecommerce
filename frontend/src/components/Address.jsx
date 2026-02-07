@@ -43,9 +43,23 @@ const Address = () => {
       const resp = await axios.get(
         `${BASE_URL}/api/auth/user/${id}/addresses`
       );
-      setSavedAddresses(resp.data || []);
+      
+      console.log("📍 Address API Response:", resp?.data);
+      
+      // Handle both array and object wrapper formats (Spring Boot)
+      let data = [];
+      if (Array.isArray(resp?.data)) {
+        data = resp.data;
+      } else if (resp?.data?.addresses && Array.isArray(resp.data.addresses)) {
+        data = resp.data.addresses;
+      } else if (resp?.data) {
+        console.warn("Addresses response is not an array:", resp.data);
+      }
+      
+      setSavedAddresses(data);
     } catch (err) {
       console.error("Error fetching saved addresses:", err);
+      setSavedAddresses([]);
     }
   };
 
@@ -140,7 +154,7 @@ const Address = () => {
         <h2>Delivery Address</h2>
         <p>Total Amount: <strong>₹{totalPrice}</strong></p>
 
-        {savedAddresses.length > 0 && (
+        {Array.isArray(savedAddresses) && savedAddresses.length > 0 && (
           <button
             className="btn-previous-addresses"
             onClick={() => setShowSaved(!showSaved)}
@@ -149,7 +163,7 @@ const Address = () => {
           </button>
         )}
 
-        {showSaved && (
+        {showSaved && Array.isArray(savedAddresses) && savedAddresses.length > 0 && (
           <div className="previous-addresses-container">
             {savedAddresses.map((addr) => (
               <div key={addr.id} className="previous-address-card">
