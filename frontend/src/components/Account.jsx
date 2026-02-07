@@ -117,7 +117,17 @@ const Account = () => {
     try {
       const response = await API.get(`/auth/user/${id}/orders`);
       console.log("Orders response:", response?.data); // Debug log
-      const data = Array.isArray(response?.data) ? response.data : [];
+      
+      // Handle both array and object wrapper formats
+      let data;
+      if (Array.isArray(response?.data)) {
+        data = response.data;
+      } else if (response?.data?.orders && Array.isArray(response.data.orders)) {
+        data = response.data.orders;
+      } else {
+        data = [];
+      }
+      
       setOrders(data);
     } catch (error) {
       console.error("Error fetching orders:", error);
@@ -205,7 +215,17 @@ const Account = () => {
     try {
       const response = await API.get(`/auth/user/${id}/addresses`);
       console.log("Addresses response:", response?.data); // Debug log
-      const data = Array.isArray(response?.data) ? response.data : [];
+      
+      // Handle both array and object wrapper formats
+      let data;
+      if (Array.isArray(response?.data)) {
+        data = response.data;
+      } else if (response?.data?.addresses && Array.isArray(response.data.addresses)) {
+        data = response.data.addresses;
+      } else {
+        data = [];
+      }
+      
       setAddresses(data);
     } catch (error) {
       console.error("Error fetching addresses:", error);
@@ -217,7 +237,17 @@ const Account = () => {
     try {
       const response = await API.get(`/auth/user/${id}/payment-methods`);
       console.log("Payment methods response:", response?.data); // Debug log
-      const data = Array.isArray(response?.data) ? response.data : [];
+      
+      // Handle both array and object wrapper formats
+      let data;
+      if (Array.isArray(response?.data)) {
+        data = response.data;
+      } else if (response?.data?.paymentMethods && Array.isArray(response.data.paymentMethods)) {
+        data = response.data.paymentMethods;
+      } else {
+        data = [];
+      }
+      
       setPaymentMethods(data);
     } catch (error) {
       console.error("Error fetching payment methods:", error);
