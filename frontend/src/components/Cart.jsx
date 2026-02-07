@@ -14,15 +14,17 @@ const Cart = () => {
   const navigate = useNavigate();
 
   const {
-    cart,
+    cart = [],
     removeFromCart,
     updateQuantity,
     isAuthenticated,
-  } = useContext(AppContext);
+  } = useContext(AppContext) || {};
 
   const [cartItems, setCartItems] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
   const [showModal, setShowModal] = useState(false);
+
+  console.log("🛒 Cart component - cart:", cart, "isArray:", Array.isArray(cart));
 
   /* -------------------------------
      AUTH GUARD
@@ -38,6 +40,12 @@ const Cart = () => {
      SYNC CART + IMAGE URL (FIXED)
   ------------------------------- */
   useEffect(() => {
+    if (!Array.isArray(cart)) {
+      console.warn("Cart is not an array:", cart);
+      setCartItems([]);
+      return;
+    }
+
     const items = cart.map((item) => ({
       ...item,
       imageUrl: `${BASE_URL}/api/product/${item.id}/image`,
@@ -49,6 +57,11 @@ const Cart = () => {
      TOTAL PRICE
   ------------------------------- */
   useEffect(() => {
+    if (!Array.isArray(cartItems)) {
+      setTotalPrice(0);
+      return;
+    }
+
     const total = cartItems.reduce(
       (sum, item) => sum + item.price * item.quantity,
       0
@@ -59,15 +72,17 @@ const Cart = () => {
   /* -------------------------------
      QUANTITY HANDLERS
   ------------------------------- */
-  const increaseQty = (id) => updateQuantity(id, 1);
-  const decreaseQty = (id) => updateQuantity(id, -1);
+  const increaseQty = (id) => updateQuantity && updateQuantity(id, 1);
+  const decreaseQty = (id) => updateQuantity && updateQuantity(id, -1);
 
   /* -------------------------------
      REMOVE ITEM
   ------------------------------- */
   const handleRemove = (id) => {
-    removeFromCart(id);
-    toast.info("Item removed 🗑️");
+    if (removeFromCart) {
+      removeFromCart(id);
+      toast.info("Item removed 🗑️");
+    }
   };
 
   /* -------------------------------
@@ -90,7 +105,7 @@ const Cart = () => {
       <div className="shopping-cart">
         <h2 className="title">Shopping Bag</h2>
 
-        {cartItems.length === 0 ? (
+        {!Array.isArray(cartItems) || cartItems.length === 0 ? (
           <div className="cart-empty">
             <h4>Your cart is empty</h4>
           </div>
