@@ -23,9 +23,10 @@ public class ProductController {
  @Autowired
     private ProductService service;
     
-    @GetMapping("/products")
-    public ResponseEntity<List<ProductDTO>> getAllProducts() {
-        List<Product> products = service.getAllProducts();
+   @GetMapping("/products")
+public ResponseEntity<List<Product>> getAllProducts() {
+    return new ResponseEntity<>(service.getAllProducts(), HttpStatus.OK);
+}
         
         // Convert to DTO without image data
         List<ProductDTO> productDTOs = products.stream()
