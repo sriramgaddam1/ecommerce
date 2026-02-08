@@ -148,6 +148,7 @@ a:hover {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    height:fit-content
 }
 
 .card h5,
