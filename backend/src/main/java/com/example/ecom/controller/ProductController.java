@@ -20,48 +20,53 @@ public class ProductController {
 
 
 
-
-        @Autowired
-        private ProductService service;
-
-
-        @GetMapping("/products")
-        public ResponseEntity<List<Product>> getAllProducts() {
-
-            return new ResponseEntity<>(service.getAllProducts(), HttpStatus.OK);
+ @Autowired
+    private ProductService service;
+    
+    @GetMapping("/products")
+    public ResponseEntity<List<ProductDTO>> getAllProducts() {
+        List<Product> products = service.getAllProducts();
+        
+        // Convert to DTO without image data
+        List<ProductDTO> productDTOs = products.stream()
+            .map(p -> new ProductDTO(
+                p.getId(),
+                p.getName(),
+                p.getDescription(),
+                p.getBrand(),
+                p.getPrice(),
+                p.getCategory(),
+                p.getStockQuantity(),
+                p.getImageType(),
+                p.isAvailable()
+            ))
+            .collect(Collectors.toList());
+        
+        return new ResponseEntity<>(productDTOs, HttpStatus.OK);
+    }
+    
+    // Keep other endpoints as they are
+    @GetMapping("/product/{id}")
+    public ResponseEntity<Product> getProduct(@PathVariable int id) {
+        Product product = service.getProduct(id);
+        if (product != null) {
+            return new ResponseEntity<>(product, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-
-        @GetMapping("/product/{id}")
-        public ResponseEntity<Product> getProduct(@PathVariable int id) {
-            Product product = service.getProduct(id);
-            if (product != null) {
-                return new ResponseEntity<>(product, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }
+    }
+    
+    @GetMapping("/product/{productId}/image")
+    public ResponseEntity<byte[]> getImageByProductId(@PathVariable int productId) {
+        Product product = service.getProduct(productId);
+        if (product == null || product.getImageData() == null) {
+            return ResponseEntity.notFound().build();
         }
-
-        @PostMapping("/product")
-        public ResponseEntity<?> addProduct(@RequestPart Product product, @RequestPart MultipartFile imageFile) {
-            try {
-                Product product1 = service.addProduct(product, imageFile);
-                return new ResponseEntity<>(product1, HttpStatus.CREATED);
-            } catch (Exception e) {
-                return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-
-
-            }
-        }
-
-
-        @GetMapping("/product/{productId}/image")
-        public ResponseEntity<byte[]> getImageByProductId(@PathVariable int productId) {
-            Product product = service.getProduct(productId);
-            byte[] imageFile = product.getImageData();
-
-            return ResponseEntity.ok().contentType(MediaType.valueOf(product.getImageType())).body(imageFile);
-
-        }
+        byte[] imageFile = product.getImageData();
+        return ResponseEntity.ok()
+            .contentType(MediaType.valueOf(product.getImageType()))
+            .body(imageFile);
+    }
     @PutMapping("/product/{id}")
     public ResponseEntity<String> updateProduct(
             @PathVariable int id,
